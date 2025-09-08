@@ -150,23 +150,46 @@ function Home() {
     }}>
       <header style={{
         padding: '20px 16px 16px',
-        borderBottom: '1px solid #1b2a44'
+        borderBottom: '1px solid #1b2a44',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center'
       }}>
-        <h1 style={{
-          fontSize: '24px',
-          fontWeight: '800',
-          margin: 0,
-          color: '#FFFFFF'
-        }}>
-          What's good
-        </h1>
-        <p style={{
-          margin: '4px 0 0',
-          color: '#9FBAD1',
-          fontSize: '16px'
-        }}>
-          Long Beach
-        </p>
+        <div>
+          <h1 style={{
+            fontSize: '24px',
+            fontWeight: '800',
+            margin: 0,
+            color: '#FFFFFF'
+          }}>
+            What's good
+          </h1>
+          <p style={{
+            margin: '4px 0 0',
+            color: '#9FBAD1',
+            fontSize: '16px'
+          }}>
+            Long Beach
+          </p>
+        </div>
+        <button 
+          onClick={() => {
+            localStorage.removeItem('isAuthenticated');
+            window.location.reload();
+          }}
+          style={{
+            backgroundColor: '#101A2B',
+            color: '#E2F4FF',
+            border: '1px solid #1b2a44',
+            padding: '8px 16px',
+            borderRadius: '8px',
+            fontSize: '14px',
+            fontWeight: '800',
+            cursor: 'pointer'
+          }}
+        >
+          Logout
+        </button>
       </header>
 
       <div style={{ padding: '16px' }}>
