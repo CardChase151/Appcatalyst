@@ -10,6 +10,7 @@ import ForgotPassword from './onboarding/forgotpassword';
 
 // Main screens
 import Home from './main/home';
+import Search from './main/search';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -60,7 +61,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/search" element={<div style={{color: '#E2F4FF', padding: '20px'}}>Search Screen Coming Soon</div>} />
+          <Route path="/search" element={<Search />} />
           <Route path="/saved" element={<div style={{color: '#E2F4FF', padding: '20px'}}>Saved Screen Coming Soon</div>} />
           <Route path="/calendar" element={<div style={{color: '#E2F4FF', padding: '20px'}}>Calendar Screen Coming Soon</div>} />
           <Route path="/profile" element={<div style={{color: '#E2F4FF', padding: '20px'}}>Profile Screen Coming Soon</div>} />

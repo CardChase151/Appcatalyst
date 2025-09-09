@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface Event {
   id: number;
@@ -19,7 +20,7 @@ interface BottomTab {
   icon: React.ReactElement;
 }
 
-// Icons as SVG components (iOS style) - MOVED TO TOP
+// Icons as SVG components (iOS style)
 const HomeIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
     <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -30,7 +31,7 @@ const HomeIcon = () => (
 const SearchIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
     <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="2"/>
-    <path d="21 21L16.65 16.65" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M21 21L16.65 16.65" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
 
@@ -57,15 +58,13 @@ const ProfileIcon = () => (
 );
 
 function Home() {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<string>('recommended');
   const [activeBottomTab, setActiveBottomTab] = useState<string>('home');
   const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
   const [chatInput, setChatInput] = useState<string>('');
   const [showAIResponse, setShowAIResponse] = useState<boolean>(false);
   const [aiResponse, setAiResponse] = useState<string>('');
-
-  // Cache for each tab's content
-  const [tabCache, setTabCache] = useState<Record<string, Event[]>>({});
 
   const mockEvents: Event[] = [
     { id: 1, title: 'Live Music Friday', venue: 'The Pike', city: 'Long Beach', category: 'music' },
@@ -136,6 +135,20 @@ function Home() {
       setActiveTab(newTab);
       setIsTransitioning(false);
     }, 150);
+  };
+
+  const handleBottomTabNavigation = (tabId: string) => {
+    setActiveBottomTab(tabId);
+    if (tabId === 'home') {
+      navigate('/');
+    } else {
+      navigate(`/${tabId}`);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('isAuthenticated');
+    navigate('/');
   };
 
   const EventCard = ({ event }: { event: Event }) => {
@@ -321,7 +334,7 @@ function Home() {
             backgroundColor: activeBottomTab === tab.id ? 'rgba(0, 209, 255, 0.1)' : 'transparent',
             transition: 'all 0.2s ease'
           }}
-          onClick={() => setActiveBottomTab(tab.id)}
+          onClick={() => handleBottomTabNavigation(tab.id)}
         >
           <div style={{
             color: activeBottomTab === tab.id ? '#00D1FF' : '#9FBAD1',
@@ -453,19 +466,40 @@ function Home() {
             <p style={{
               color: '#E2F4FF',
               fontSize: '14px',
-              margin: 0,
+              margin: '0 0 12px 0',
               lineHeight: '1.4'
             }}>
               {aiResponse}
             </p>
+            <button
+              onClick={() => navigate('/search')}
+              style={{
+                backgroundColor: '#00D1FF',
+                color: '#0F1623',
+                border: 'none',
+                padding: '10px 20px',
+                borderRadius: '12px',
+                fontSize: '14px',
+                fontWeight: '700',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                const target = e.currentTarget as HTMLButtonElement;
+                target.style.backgroundColor = '#0099CC';
+              }}
+              onMouseLeave={(e) => {
+                const target = e.currentTarget as HTMLButtonElement;
+                target.style.backgroundColor = '#00D1FF';
+              }}
+            >
+              Yes, show me something new
+            </button>
           </div>
         )}
 
         <button 
-          onClick={() => {
-            localStorage.removeItem('isAuthenticated');
-            window.location.reload();
-          }}
+          onClick={handleLogout}
           style={{
             position: 'absolute',
             top: '20px',
