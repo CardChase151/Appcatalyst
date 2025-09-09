@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface Event {
@@ -78,37 +78,23 @@ const mockEvents: Event[] = [
 
 function ConversationalSearch() {
   const navigate = useNavigate();
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>(() => [
+    {
+      id: 'initial-message',
+      type: 'ai',
+      content: "Hey! Last time you went hiking at Griffith Park. Want to try something similar or completely different?",
+      suggestions: ['Similar', 'Different', 'Surprise me']
+    }
+  ]);
   const [userInput, setUserInput] = useState('');
   const [conversationState, setConversationState] = useState('initial');
   const [isTyping, setIsTyping] = useState(false);
-  const messageIdCounter = useRef(0);
-  const hasStarted = useRef(false);
-
-  // Start conversation on first render
-  React.useEffect(() => {
-    if (!hasStarted.current) {
-      hasStarted.current = true;
-      startConversation();
-    }
-  }, []);
+  const [messageCounter, setMessageCounter] = useState(1);
 
   const generateId = () => {
-    messageIdCounter.current += 1;
-    return `msg-${messageIdCounter.current}`;
+    setMessageCounter(prev => prev + 1);
+    return `msg-${messageCounter + 1}`;
   };
-
-  const startConversation = React.useCallback(() => {
-    setTimeout(() => {
-      const initialMessage: ChatMessage = {
-        id: generateId(),
-        type: 'ai',
-        content: "Hey! Last time you went hiking at Griffith Park. Want to try something similar or completely different?",
-        suggestions: ['Similar', 'Different', 'Surprise me']
-      };
-      setMessages([initialMessage]);
-    }, 1000);
-  }, []);
 
   const addUserMessage = (content: string) => {
     const userMessage: ChatMessage = {
@@ -204,7 +190,6 @@ function ConversationalSearch() {
         );
       }
     } else {
-      // General fallback responses
       addAIMessage(
         'Want to explore more options or start a new search?',
         ['Show me more', 'Start over', 'I\'m all set']
