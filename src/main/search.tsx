@@ -98,7 +98,7 @@ function ConversationalSearch() {
     return `msg-${messageIdCounter.current}`;
   };
 
-  const startConversation = () => {
+  const startConversation = React.useCallback(() => {
     setTimeout(() => {
       const initialMessage: ChatMessage = {
         id: generateId(),
@@ -108,7 +108,7 @@ function ConversationalSearch() {
       };
       setMessages([initialMessage]);
     }, 1000);
-  };
+  }, []);
 
   const addUserMessage = (content: string) => {
     const userMessage: ChatMessage = {
