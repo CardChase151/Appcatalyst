@@ -128,6 +128,8 @@ function Login({ onLogin }: LoginProps) {
     marginRight: '12px'
   };
 
+  const isPWA = window.matchMedia('(display-mode: standalone)').matches;
+
   return (
     <div style={{
       backgroundColor: '#0F1623',
@@ -137,6 +139,7 @@ function Login({ onLogin }: LoginProps) {
       justifyContent: 'center',
       alignItems: 'center',
       padding: '20px',
+      paddingTop: isPWA ? 'max(env(safe-area-inset-top), 20px)' : '20px',
       color: '#E2F4FF'
     }}>
       <div style={{ width: '100%', maxWidth: '400px' }}>

@@ -123,6 +123,7 @@ function Projects() {
   });
 
   const isMobile = window.innerWidth <= 768;
+  const isPWA = window.matchMedia('(display-mode: standalone)').matches;
 
   return (
     <div style={{
@@ -130,6 +131,7 @@ function Projects() {
       minHeight: '100vh',
       color: '#FFFFFF',
       padding: '20px',
+      paddingTop: isPWA ? 'max(env(safe-area-inset-top), 20px)' : '20px',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
     }}>
       {/* Header */}

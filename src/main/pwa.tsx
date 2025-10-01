@@ -189,15 +189,15 @@ function PWA() {
     return (
       <>
         <div
-          className="pwa-fullscreen"
           style={{
             background: '#000000',
             minHeight: '100vh',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
             alignItems: 'center',
-            padding: '60px 20px 100px 20px',
+            paddingTop: '30vh',
+            padding: '30vh 20px 100px 20px',
             color: '#FFFFFF',
             textAlign: 'center'
           }}>
@@ -273,17 +273,6 @@ function PWA() {
                 background: #000000 !important;
               }
 
-              .pwa-fullscreen {
-                position: fixed !important;
-                top: 0 !important;
-                left: 0 !important;
-                width: 100vw !important;
-                height: 100vh !important;
-                z-index: 9999 !important;
-                margin: 0 !important;
-                padding: 0 !important;
-              }
-
               body.pwa-active #root {
                 background: #000000 !important;
               }
@@ -320,9 +309,10 @@ function PWA() {
             minHeight: '100vh',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
             alignItems: 'center',
-            padding: '60px 20px 100px 20px',
+            paddingTop: '15vh',
+            padding: '15vh 20px 100px 20px',
             color: '#FFFFFF',
             position: 'relative'
           }}>
@@ -381,7 +371,10 @@ function PWA() {
                   lineHeight: '1.5',
                   color: '#FFFFFF'
                 }}>
-                  1. Tap the <strong>Share</strong> button ↓
+                  1. Tap the <strong>Share</strong> button <svg width="16" height="20" viewBox="0 0 16 20" fill="none" style={{ display: 'inline-block', verticalAlign: 'middle', marginLeft: '4px' }}>
+                    <rect x="1" y="8" width="14" height="11" stroke="currentColor" strokeWidth="1.5" fill="none" rx="1"/>
+                    <path d="M8 1 L8 12 M8 1 L5 4 M8 1 L11 4" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
                 </p>
                 <p style={{
                   fontSize: '16px',
@@ -428,19 +421,8 @@ function PWA() {
             )}
           </div>
 
-          {/* Bouncing arrow pointing down */}
-          <div style={{
-            position: 'absolute',
-            bottom: '180px',
-            fontSize: '32px',
-            color: '#FFFFFF',
-            animation: 'bounce 2s infinite'
-          }}>
-            ↓
-          </div>
-
           {/* Checkbox fallback */}
-          <div style={{ textAlign: 'center', marginTop: '20px' }}>
+          <div style={{ textAlign: 'center', marginTop: '60px' }}>
             <label style={{
               display: 'flex',
               alignItems: 'center',
@@ -485,6 +467,16 @@ function PWA() {
             >
               Done!
             </button>
+
+            {/* Bouncing arrow pointing down */}
+            <div style={{
+              fontSize: '32px',
+              color: '#FFFFFF',
+              animation: 'bounce 2s infinite',
+              marginTop: '30px'
+            }}>
+              ↓
+            </div>
           </div>
 
           {/* CSS for bounce animation */}
@@ -498,7 +490,6 @@ function PWA() {
             `
           }} />
         </div>
-        <BottomBar activeTab="pwa" />
       </>
     );
   }

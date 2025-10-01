@@ -201,6 +201,7 @@ function Home() {
         minHeight: '100vh',
         color: '#FFFFFF',
         padding: '20px',
+        paddingTop: isPWA ? 'max(env(safe-area-inset-top), 20px)' : '20px',
         fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
         opacity: showContent ? 1 : 0,
         transition: 'opacity 2s ease',
@@ -366,6 +367,11 @@ function Home() {
         </div>
       </div>
 
+      {/* Spacer for mobile to add padding below profile image */}
+      <div style={{
+        height: window.innerWidth <= 768 ? '100px' : '0',
+        backgroundColor: '#000000'
+      }}></div>
 
       <style>{`
         @keyframes breathe {
