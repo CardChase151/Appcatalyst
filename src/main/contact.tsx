@@ -7,12 +7,14 @@ function Contact() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
+    interestedInQuote: 'no',
     message: ''
   });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -38,6 +40,8 @@ function Contact() {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
+          phone: formData.phone,
+          interestedInQuote: formData.interestedInQuote,
           message: formData.message,
           timestamp: new Date().toISOString()
         })
@@ -45,7 +49,7 @@ function Contact() {
 
       // With no-cors mode, we can't read the response, so we assume success
       setStatus('success');
-      setFormData({ name: '', email: '', message: '' });
+      setFormData({ name: '', email: '', phone: '', interestedInQuote: 'no', message: '' });
 
       // Reset success message after 3 seconds
       setTimeout(() => {
@@ -195,6 +199,76 @@ function Contact() {
               onFocus={(e) => e.target.style.borderColor = '#FFFFFF'}
               onBlur={(e) => e.target.style.borderColor = '#333333'}
             />
+          </div>
+
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{
+              display: 'block',
+              fontSize: '14px',
+              fontWeight: '600',
+              marginBottom: '8px',
+              color: '#FFFFFF'
+            }}>
+              Phone Number
+            </label>
+            <input
+              type="tel"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              required
+              placeholder="(123) 456-7890"
+              style={{
+                width: '100%',
+                backgroundColor: '#000000',
+                border: '1px solid #333333',
+                borderRadius: '8px',
+                padding: '12px',
+                fontSize: '16px',
+                color: '#FFFFFF',
+                outline: 'none',
+                transition: 'border-color 0.2s ease',
+                boxSizing: 'border-box'
+              }}
+              onFocus={(e) => e.target.style.borderColor = '#FFFFFF'}
+              onBlur={(e) => e.target.style.borderColor = '#333333'}
+            />
+          </div>
+
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{
+              display: 'block',
+              fontSize: '14px',
+              fontWeight: '600',
+              marginBottom: '8px',
+              color: '#FFFFFF'
+            }}>
+              Interested in a Quote?
+            </label>
+            <select
+              name="interestedInQuote"
+              value={formData.interestedInQuote}
+              onChange={handleChange}
+              required
+              style={{
+                width: '100%',
+                backgroundColor: '#000000',
+                border: '1px solid #333333',
+                borderRadius: '8px',
+                padding: '12px',
+                fontSize: '16px',
+                color: '#FFFFFF',
+                outline: 'none',
+                transition: 'border-color 0.2s ease',
+                boxSizing: 'border-box',
+                cursor: 'pointer'
+              }}
+              onFocus={(e) => e.target.style.borderColor = '#FFFFFF'}
+              onBlur={(e) => e.target.style.borderColor = '#333333'}
+            >
+              <option value="no" style={{ backgroundColor: '#000000', color: '#FFFFFF' }}>No</option>
+              <option value="yes" style={{ backgroundColor: '#000000', color: '#FFFFFF' }}>Yes</option>
+            </select>
           </div>
 
           <div style={{ marginBottom: '24px' }}>

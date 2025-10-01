@@ -6,6 +6,14 @@ import BottomBar from '../menu/bottombar';
 function Home() {
   const navigate = useNavigate();
   const { signOut } = useAuth();
+
+  // Detect device and PWA mode
+  const isPWA = window.matchMedia('(display-mode: standalone)').matches;
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const isAndroid = /Android/.test(navigator.userAgent);
+  const isMobile = isIOS || isAndroid;
+  const isDesktop = !isMobile;
+
   const [showWelcomeButton, setShowWelcomeButton] = useState(() => {
     // Initialize from localStorage to prevent flash
     const hasSeenWelcome = localStorage.getItem('hasSeenWelcome');
@@ -20,6 +28,17 @@ function Home() {
     // Content visible only if welcome was already seen
     return !!localStorage.getItem('hasSeenWelcome');
   });
+
+  // Determine welcome button text
+  const getWelcomeText = () => {
+    if (isPWA) {
+      return 'WELCOME TO\nAPP VERSION';
+    } else if (isDesktop) {
+      return 'WELCOME TO\nDESKTOP VERSION';
+    } else {
+      return 'ENTER';
+    }
+  };
 
   const handleReset = () => {
     console.log('Clearing cache...');
@@ -136,7 +155,7 @@ function Home() {
               border: '3px solid #FFFFFF',
               backgroundColor: isPressed ? '#1A1A1A' : '#0A0A0A',
               color: '#FFFFFF',
-              fontSize: '24px',
+              fontSize: isPWA || isDesktop ? '18px' : '24px',
               fontWeight: '800',
               cursor: 'pointer',
               boxShadow: isPressed
@@ -151,10 +170,16 @@ function Home() {
               marginLeft: '-100px',
               zIndex: 10000,
               animation: 'breathe 3s ease-in-out infinite',
-              opacity: showAnimation ? 0 : 1
+              opacity: showAnimation ? 0 : 1,
+              whiteSpace: 'pre-line',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              textAlign: 'center',
+              lineHeight: '1.3'
             }}
           >
-            ENTER
+            {getWelcomeText()}
           </button>
 
           <p style={{
@@ -165,7 +190,7 @@ function Home() {
             opacity: showAnimation ? 0 : 0.8,
             transition: 'opacity 0.3s ease'
           }}>
-            Click to explore my portfolio
+            {isPWA ? 'Enjoying the app experience!' : isDesktop ? 'Click to explore my portfolio' : 'Click to explore my portfolio'}
           </p>
         </div>
       )}
@@ -202,7 +227,7 @@ function Home() {
             transition: 'all 0.2s ease'
           }}
         >
-          Clear Cache
+          Reset Intro
         </button>
 
         <h1 style={{

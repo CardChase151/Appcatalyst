@@ -10,7 +10,7 @@ import LoginDemo from './main/logindemo';
 import Search from './main/search';
 import Saved from './main/saved';
 import Contact from './main/contact';
-import Profile from './main/profile';
+import PWA from './main/pwa';
 
 function AppContent() {
   return (
@@ -29,7 +29,7 @@ function AppContent() {
           <Route path="/search" element={<Search />} />
           <Route path="/saved" element={<Saved />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/pwa" element={<PWA />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
