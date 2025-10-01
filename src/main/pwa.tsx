@@ -171,11 +171,48 @@ function PWA() {
                 color: '#FFFFFF',
                 lineHeight: '1.6',
                 textAlign: 'center',
-                maxWidth: '500px'
+                maxWidth: '500px',
+                marginBottom: '40px'
               }}>
                 Crafting digital experiences since 2019 — 25+ apps, 30+ websites.
                 Passionate about building innovative solutions that make a difference.
               </p>
+
+              {/* QR Code Section */}
+              <div style={{
+                backgroundColor: '#000000',
+                border: '1px solid #333333',
+                borderRadius: '16px',
+                padding: '30px',
+                textAlign: 'center'
+              }}>
+                <h3 style={{
+                  fontSize: '20px',
+                  fontWeight: '700',
+                  marginBottom: '15px',
+                  color: '#FFFFFF'
+                }}>
+                  Install on Your Phone
+                </h3>
+                <p style={{
+                  fontSize: '14px',
+                  color: '#FFFFFF',
+                  marginBottom: '20px'
+                }}>
+                  Scan this QR code with your mobile device
+                </p>
+                <img
+                  src="/qrcode.png"
+                  alt="QR Code to install app"
+                  style={{
+                    width: '200px',
+                    height: '200px',
+                    backgroundColor: '#FFFFFF',
+                    padding: '10px',
+                    borderRadius: '12px'
+                  }}
+                />
+              </div>
             </div>
 
             <BottomBar activeTab="pwa" />
