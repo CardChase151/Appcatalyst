@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield, LogIn, UserPlus, Key, Mail, Database, CheckCircle, Lock, Cloud, Users, ChevronDown } from 'lucide-react';
+import { Shield, LogIn, UserPlus, Key, Mail, Database, ChevronDown } from 'lucide-react';
 import BottomBar from '../menu/bottombar';
 
 type DemoScreen = 'overview' | 'login' | 'signup' | 'forgot' | 'email-verify' | 'supabase';
@@ -417,7 +417,7 @@ supabase
             fontSize: '12px',
             color: '#999999'
           }}>
-            <a href="#" style={{ color: '#FFFFFF', textDecoration: 'none' }}>Forgot password?</a>
+            <button type="button" style={{ color: '#FFFFFF', textDecoration: 'none', background: 'none', border: 'none', cursor: 'pointer', padding: 0, font: 'inherit' }}>Forgot password?</button>
           </div>
 
           <div style={{
@@ -682,7 +682,7 @@ supabase
             fontSize: '12px',
             color: '#999999'
           }}>
-            Already have an account? <a href="#" style={{ color: '#FFFFFF', textDecoration: 'none' }}>Sign In</a>
+            Already have an account? <button type="button" style={{ color: '#FFFFFF', textDecoration: 'none', background: 'none', border: 'none', cursor: 'pointer', padding: 0, font: 'inherit' }}>Sign In</button>
           </div>
         </div>
       </div>
@@ -806,7 +806,7 @@ supabase
             fontSize: '12px',
             color: '#999999'
           }}>
-            <a href="#" style={{ color: '#FFFFFF', textDecoration: 'none' }}>← Back to login</a>
+            <button type="button" style={{ color: '#FFFFFF', textDecoration: 'none', background: 'none', border: 'none', cursor: 'pointer', padding: 0, font: 'inherit' }}>← Back to login</button>
           </div>
         </div>
       </div>
@@ -954,7 +954,7 @@ supabase
             color: '#999999',
             marginTop: '16px'
           }}>
-            <a href="#" style={{ color: '#FFFFFF', textDecoration: 'none' }}>← Back to login</a>
+            <button type="button" style={{ color: '#FFFFFF', textDecoration: 'none', background: 'none', border: 'none', cursor: 'pointer', padding: 0, font: 'inherit' }}>← Back to login</button>
           </div>
         </div>
       </div>

@@ -1,13 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
-import { AuthProvider, useAuth } from './context/AuthContext';
-
-// Onboarding screens
-import Welcome from './onboarding/welcome';
-import Login from './onboarding/login';
-import SignUp from './onboarding/signup';
-import ForgotPassword from './onboarding/forgotpassword';
+import { AuthProvider } from './context/AuthContext';
 
 // Main screens
 import Home from './main/home';
