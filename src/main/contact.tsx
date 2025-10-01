@@ -133,7 +133,7 @@ function Contact() {
           margin: '0 0 30px 0',
           textAlign: 'center'
         }}>
-          Have a question or want to work together? Send me a message!
+          Have a question or want to work together? Send me a message and let's bring your idea to life with <strong>AppCatalyst</strong>!
         </p>
 
         {/* Contact Form */}

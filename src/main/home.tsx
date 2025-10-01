@@ -237,7 +237,7 @@ function Home() {
           margin: 0,
           color: '#FFFFFF'
         }}>
-          Home
+          AppCatalyst
         </h1>
       </header>
 
@@ -278,7 +278,7 @@ function Home() {
             textAlign: 'left',
             maxWidth: '500px'
           }}>
-            Crafting digital experiences since 2019 — 25+ apps, 30+ websites.
+            Crafting digital experiences since 2019 — 25+ apps, 30+ websites. Powered by <strong style={{ color: '#FFFFFF' }}>AppCatalyst</strong>.
           </p>
 
           <div style={{

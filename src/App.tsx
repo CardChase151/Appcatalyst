@@ -6,6 +6,7 @@ import { AuthProvider } from './context/AuthContext';
 // Main screens
 import Home from './main/home';
 import Projects from './main/projects';
+import Pricing from './main/pricing';
 import LoginDemo from './main/logindemo';
 import Search from './main/search';
 import Saved from './main/saved';
@@ -25,6 +26,7 @@ function AppContent() {
           <Route path="/home" element={<Home />} />
           <Route path="/work" element={<Projects />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/pricing" element={<Pricing />} />
           <Route path="/login-demo" element={<LoginDemo />} />
           <Route path="/search" element={<Search />} />
           <Route path="/saved" element={<Saved />} />
