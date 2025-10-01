@@ -129,86 +129,50 @@ function PWA() {
               </button>
             </header>
 
-            {/* Profile Content */}
+            {/* QR Code Content */}
             <div style={{
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               maxWidth: '600px',
               margin: '0 auto',
-              marginBottom: '100px'
+              marginBottom: '100px',
+              textAlign: 'center'
             }}>
-              <img
-                src="/profile.png"
-                alt="Chase Kellis"
-                style={{
-                  width: 'auto',
-                  height: '400px',
-                  maxWidth: '100%',
-                  marginBottom: '30px'
-                }}
-              />
-
               <h2 style={{
-                fontSize: '32px',
+                fontSize: '36px',
                 fontWeight: '800',
-                marginBottom: '10px',
+                marginBottom: '20px',
                 color: '#FFFFFF'
               }}>
-                Chase Kellis
+                Install on Your Phone
               </h2>
 
               <p style={{
                 fontSize: '18px',
                 color: '#FFFFFF',
-                marginBottom: '20px'
-              }}>
-                Senior Full Stack App Developer
-              </p>
-
-              <p style={{
-                fontSize: '16px',
-                color: '#FFFFFF',
                 lineHeight: '1.6',
-                textAlign: 'center',
-                maxWidth: '500px',
-                marginBottom: '40px'
+                marginBottom: '40px',
+                maxWidth: '400px'
               }}>
-                Crafting digital experiences since 2019 — 25+ apps, 30+ websites.
-                Passionate about building innovative solutions that make a difference.
+                Scan this QR code with your mobile device to install the app
               </p>
 
-              {/* QR Code Section */}
               <div style={{
                 backgroundColor: '#000000',
                 border: '1px solid #333333',
                 borderRadius: '16px',
-                padding: '30px',
+                padding: '40px',
                 textAlign: 'center'
               }}>
-                <h3 style={{
-                  fontSize: '20px',
-                  fontWeight: '700',
-                  marginBottom: '15px',
-                  color: '#FFFFFF'
-                }}>
-                  Install on Your Phone
-                </h3>
-                <p style={{
-                  fontSize: '14px',
-                  color: '#FFFFFF',
-                  marginBottom: '20px'
-                }}>
-                  Scan this QR code with your mobile device
-                </p>
                 <img
                   src="/qrcode.png"
                   alt="QR Code to install app"
                   style={{
-                    width: '200px',
-                    height: '200px',
+                    width: '300px',
+                    height: '300px',
                     backgroundColor: '#FFFFFF',
-                    padding: '10px',
+                    padding: '20px',
                     borderRadius: '12px'
                   }}
                 />
