@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
+import { AuthProvider, useAuth } from './context/AuthContext';
 
 // Onboarding screens
 import Welcome from './onboarding/welcome';
@@ -10,65 +11,43 @@ import ForgotPassword from './onboarding/forgotpassword';
 
 // Main screens
 import Home from './main/home';
+import Projects from './main/projects';
+import LoginDemo from './main/logindemo';
 import Search from './main/search';
+import Saved from './main/saved';
+import Contact from './main/contact';
+import Profile from './main/profile';
 
-function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  // Check if user is authenticated on app load
-  useEffect(() => {
-    const authStatus = localStorage.getItem('isAuthenticated');
-    if (authStatus === 'true') {
-      setIsAuthenticated(true);
-    }
-  }, []);
-
-  // Function to handle login
-  const handleLogin = () => {
-    localStorage.setItem('isAuthenticated', 'true');
-    setIsAuthenticated(true);
-  };
-
-  // If user is not authenticated, show onboarding flow
-  if (!isAuthenticated) {
-    return (
-      <Router>
-        <div style={{ 
-          backgroundColor: '#0F1623', 
-          minHeight: '100vh',
-          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
-        }}>
-          <Routes>
-            <Route path="/" element={<Welcome />} />
-            <Route path="/login" element={<Login onLogin={handleLogin} />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </div>
-      </Router>
-    );
-  }
-
-  // If user is authenticated, show main app
+function AppContent() {
   return (
     <Router>
-      <div style={{ 
-        backgroundColor: '#0F1623', 
+      <div style={{
+        backgroundColor: '#000000',
         minHeight: '100vh',
         fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
       }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/work" element={<Projects />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/login-demo" element={<LoginDemo />} />
           <Route path="/search" element={<Search />} />
-          <Route path="/saved" element={<div style={{color: '#E2F4FF', padding: '20px'}}>Saved Screen Coming Soon</div>} />
-          <Route path="/calendar" element={<div style={{color: '#E2F4FF', padding: '20px'}}>Calendar Screen Coming Soon</div>} />
-          <Route path="/profile" element={<div style={{color: '#E2F4FF', padding: '20px'}}>Profile Screen Coming Soon</div>} />
+          <Route path="/saved" element={<Saved />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
     </Router>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 

@@ -16,22 +16,29 @@ const HomeIcon = () => (
 const SearchIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
     <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="2"/>
-    <path d="21 21L16.65 16.65" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M21 21L16.65 16.65" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
 
-const HeartIcon = () => (
+const LoginIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-    <path d="M20.84 4.61C20.3292 4.099 19.7228 3.69364 19.0554 3.41708C18.3879 3.14052 17.6725 2.99817 16.95 2.99817C16.2275 2.99817 15.5121 3.14052 14.8446 3.41708C14.1772 3.69364 13.5708 4.099 13.06 4.61L12 5.67L10.94 4.61C9.9083 3.5783 8.50903 2.9987 7.05 2.9987C5.59096 2.9987 4.19169 3.5783 3.16 4.61C2.1283 5.6417 1.5487 7.04097 1.5487 8.5C1.5487 9.95903 2.1283 11.3583 3.16 12.39L12 21.23L20.84 12.39C21.351 11.8792 21.7563 11.2728 22.0329 10.6053C22.3095 9.93789 22.4518 9.22248 22.4518 8.5C22.4518 7.77752 22.3095 7.06211 22.0329 6.39467C21.7563 5.72723 21.351 5.1208 20.84 4.61V4.61Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M15 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M10 17L15 12L10 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M15 12H3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
 
-const CalendarIcon = () => (
+const WorkIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="currentColor" strokeWidth="2"/>
-    <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-    <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-    <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2"/>
+    <rect x="2" y="7" width="20" height="14" rx="2" ry="2" stroke="currentColor" strokeWidth="2"/>
+    <path d="M16 21V5C16 4.46957 15.7893 3.96086 15.4142 3.58579C15.0391 3.21071 14.5304 3 14 3H10C9.46957 3 8.96086 3.21071 8.58579 3.58579C8.21071 3.96086 8 4.46957 8 5V21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+const ContactIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M22 6L12 13L2 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
 
@@ -47,9 +54,9 @@ function BottomBar({ activeTab }: BottomBarProps) {
 
   const tabs = [
     { id: 'home', label: 'Home', icon: <HomeIcon /> },
-    { id: 'search', label: 'Search', icon: <SearchIcon /> },
-    { id: 'saved', label: 'Saved', icon: <HeartIcon /> },
-    { id: 'calendar', label: 'Calendar', icon: <CalendarIcon /> },
+    { id: 'work', label: 'Work', icon: <WorkIcon /> },
+    { id: 'login-demo', label: 'Auth', icon: <LoginIcon /> },
+    { id: 'contact', label: 'Contact', icon: <ContactIcon /> },
     { id: 'profile', label: 'Profile', icon: <ProfileIcon /> }
   ];
 
@@ -66,8 +73,8 @@ function BottomBar({ activeTab }: BottomBarProps) {
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: '#0B1220',
-    borderTop: '1px solid #1b2a44',
+    backgroundColor: '#000000',
+    borderTop: '1px solid #333333',
     display: 'flex',
     justifyContent: 'space-around',
     alignItems: 'center',
@@ -83,18 +90,18 @@ function BottomBar({ activeTab }: BottomBarProps) {
     padding: '8px 12px',
     borderRadius: '12px',
     transition: 'all 0.2s ease',
-    backgroundColor: isActive ? 'rgba(0, 209, 255, 0.1)' : 'transparent'
+    backgroundColor: isActive ? 'rgba(255, 255, 255, 0.1)' : 'transparent'
   });
 
   const iconStyle = (isActive: boolean) => ({
-    color: isActive ? '#00D1FF' : '#9FBAD1',
+    color: isActive ? '#FFFFFF' : '#FFFFFF',
     marginBottom: '4px',
     transition: 'color 0.2s ease'
   });
 
   const labelStyle = (isActive: boolean) => ({
     fontSize: '12px',
-    color: isActive ? '#00D1FF' : '#9FBAD1',
+    color: isActive ? '#FFFFFF' : '#FFFFFF',
     fontWeight: isActive ? '600' : '400',
     transition: 'color 0.2s ease'
   });
