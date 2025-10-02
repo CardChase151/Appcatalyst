@@ -1032,7 +1032,7 @@ supabase
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Basic YOUR_REST_API_KEY' // This should be replaced with actual key or moved to backend
+            'Authorization': 'Basic os_v2_app_hvaeqga6tjby3huezhgp2oalpxuxwn7g2dvejlvvr2hhkfxddhvkek43izmd6npb5dmigxw3xrawew633rinyo3ufiljscqiqbgz37a'
           },
           body: JSON.stringify({
             app_id: '3d404818-1e9a-438d-9e84-c9ccfd380b7d',
