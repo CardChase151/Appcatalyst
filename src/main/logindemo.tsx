@@ -1018,8 +1018,8 @@ supabase
         throw new Error('OneSignal not initialized');
       }
 
-      // @ts-ignore
-      const playerId = await window.OneSignal.getUserId();
+      // @ts-ignore - Get player ID from OneSignal v16 API
+      const playerId = await window.OneSignal.User.PushSubscription.id;
 
       if (!playerId) {
         setPushMessage('Please subscribe to notifications first (click the bell icon)');
