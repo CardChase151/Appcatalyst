@@ -11,7 +11,6 @@ function LoginDemo() {
   const isMobile = window.innerWidth <= 768;
 
   // Push notification state
-  const [pushTitle, setPushTitle] = useState('');
   const [pushBody, setPushBody] = useState('');
   const [pushSending, setPushSending] = useState(false);
   const [pushMessage, setPushMessage] = useState('');
@@ -1004,8 +1003,8 @@ supabase
   );
 
   const sendTestNotification = async () => {
-    if (!pushTitle || !pushBody) {
-      setPushMessage('Please enter both title and body');
+    if (!pushBody) {
+      setPushMessage('Please enter a message');
       return;
     }
 
@@ -1037,14 +1036,13 @@ supabase
         body: JSON.stringify({
           app_id: '3d404818-1e9a-438d-9e84-c9ccfd380b7d',
           include_player_ids: [playerId],
-          headings: { en: pushTitle },
+          headings: { en: 'Notification' },
           contents: { en: pushBody }
         })
       });
 
       if (response.ok) {
         setPushMessage('✅ Notification sent successfully!');
-        setPushTitle('');
         setPushBody('');
       } else {
         setPushMessage('❌ Failed to send notification');
@@ -1103,41 +1101,21 @@ supabase
             <h3 style={{
               fontSize: '20px',
               fontWeight: '600',
-              margin: '0 0 24px 0',
+              margin: '0 0 12px 0',
               color: '#FFFFFF',
               textAlign: 'center'
             }}>
               Send Test Notification
             </h3>
 
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{
-                display: 'block',
-                fontSize: '12px',
-                fontWeight: '600',
-                color: '#CCCCCC',
-                marginBottom: '6px'
-              }}>
-                Notification Title
-              </label>
-              <input
-                type="text"
-                value={pushTitle}
-                onChange={(e) => setPushTitle(e.target.value)}
-                placeholder="e.g., New Message"
-                style={{
-                  width: '100%',
-                  backgroundColor: '#000000',
-                  border: '1px solid #333333',
-                  borderRadius: '8px',
-                  padding: '12px',
-                  color: '#FFFFFF',
-                  fontSize: '14px',
-                  outline: 'none',
-                  boxSizing: 'border-box'
-                }}
-              />
-            </div>
+            <p style={{
+              fontSize: '13px',
+              color: '#999999',
+              textAlign: 'center',
+              margin: '0 0 24px 0'
+            }}>
+              Will display as: <span style={{ color: '#FFFFFF', fontWeight: '600' }}>Notification from AppCatalyst</span>
+            </p>
 
             <div style={{ marginBottom: '20px' }}>
               <label style={{
@@ -1147,12 +1125,12 @@ supabase
                 color: '#CCCCCC',
                 marginBottom: '6px'
               }}>
-                Notification Body
+                Message
               </label>
               <textarea
                 value={pushBody}
                 onChange={(e) => setPushBody(e.target.value)}
-                placeholder="e.g., You have a new message from..."
+                placeholder="Enter your notification message here..."
                 style={{
                   width: '100%',
                   backgroundColor: '#000000',

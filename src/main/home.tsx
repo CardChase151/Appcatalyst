@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Bell } from 'lucide-react';
+import { Bell, Info, X } from 'lucide-react';
 import BottomBar from '../menu/bottombar';
 
 function Home() {
@@ -32,6 +32,7 @@ function Home() {
 
   // Push notification state
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [showInfoModal, setShowInfoModal] = useState(false);
 
   // Check subscription status on mount
   useEffect(() => {
@@ -61,7 +62,13 @@ function Home() {
         if (!isPushEnabled) {
           // @ts-ignore
           await window.OneSignal.Slidedown.promptPush();
-          setIsSubscribed(true);
+
+          // Check actual permission status after prompt
+          setTimeout(async () => {
+            // @ts-ignore
+            const actualStatus = await window.OneSignal.User.PushSubscription.optedIn;
+            setIsSubscribed(actualStatus);
+          }, 500);
         }
       }
     } catch (error) {
@@ -276,6 +283,7 @@ function Home() {
         <div style={{
           position: 'absolute',
           left: '50%',
+          top: '5px',
           transform: 'translateX(-50%)',
           display: 'flex',
           flexDirection: 'column',
@@ -309,15 +317,41 @@ function Home() {
           >
             <Bell size={20} strokeWidth={2} />
           </button>
-          <span style={{
-            fontSize: '9px',
-            color: isSubscribed ? '#FFFFFF' : '#666666',
-            fontWeight: '600',
-            whiteSpace: 'nowrap',
-            letterSpacing: '0.5px'
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '4px'
           }}>
-            {isSubscribed ? 'Notifications On' : 'Notifications Off'}
-          </span>
+            <span style={{
+              fontSize: '9px',
+              color: isSubscribed ? '#FFFFFF' : '#666666',
+              fontWeight: '600',
+              whiteSpace: 'nowrap',
+              letterSpacing: '0.5px'
+            }}>
+              {isSubscribed ? 'Notifications On' : 'Notifications Off'}
+            </span>
+            {!isSubscribed && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowInfoModal(true);
+                }}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  padding: 0,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  color: '#666666'
+                }}
+                title="How to enable notifications"
+              >
+                <Info size={12} strokeWidth={2} />
+              </button>
+            )}
+          </div>
         </div>
 
         <h1 style={{
@@ -506,6 +540,91 @@ function Home() {
           opacity: showContent ? 0 : 1,
           transition: 'opacity 2s ease'
         }} />
+      )}
+
+      {/* Info Modal */}
+      {showInfoModal && (
+        <div
+          onClick={() => setShowInfoModal(false)}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 10000,
+            padding: '20px'
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              backgroundColor: '#0A0A0A',
+              border: '1px solid #FFFFFF',
+              borderRadius: '16px',
+              padding: '24px',
+              maxWidth: '400px',
+              width: '100%',
+              position: 'relative'
+            }}
+          >
+            <button
+              onClick={() => setShowInfoModal(false)}
+              style={{
+                position: 'absolute',
+                top: '16px',
+                right: '16px',
+                background: 'none',
+                border: 'none',
+                color: '#FFFFFF',
+                cursor: 'pointer',
+                padding: '4px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <X size={20} strokeWidth={2} />
+            </button>
+
+            <h3 style={{
+              fontSize: '20px',
+              fontWeight: '700',
+              color: '#FFFFFF',
+              margin: '0 0 16px 0',
+              paddingRight: '30px'
+            }}>
+              Enable Notifications
+            </h3>
+
+            <p style={{
+              fontSize: '14px',
+              color: '#CCCCCC',
+              lineHeight: '1.6',
+              margin: '0 0 12px 0'
+            }}>
+              To receive notifications, please enable them in your device settings:
+            </p>
+
+            <ol style={{
+              fontSize: '14px',
+              color: '#FFFFFF',
+              lineHeight: '1.8',
+              margin: '0',
+              paddingLeft: '20px'
+            }}>
+              <li>Open <strong>Settings</strong> on your device</li>
+              <li>Go to <strong>Apps</strong> or <strong>Safari</strong></li>
+              <li>Find <strong>AppCatalyst</strong></li>
+              <li>Tap <strong>Notifications</strong></li>
+              <li>Turn them <strong>On</strong></li>
+            </ol>
+          </div>
+        </div>
       )}
     </>
   );
