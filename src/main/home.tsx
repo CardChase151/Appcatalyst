@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { Bell } from 'lucide-react';
 import BottomBar from '../menu/bottombar';
 
 function Home() {
@@ -28,6 +29,45 @@ function Home() {
     // Content visible only if welcome was already seen
     return !!localStorage.getItem('hasSeenWelcome');
   });
+
+  // Push notification state
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
+  // Check subscription status on mount
+  useEffect(() => {
+    const checkSubscription = async () => {
+      try {
+        // @ts-ignore
+        if (window.OneSignal) {
+          // @ts-ignore
+          const isPushEnabled = await window.OneSignal.User.PushSubscription.optedIn;
+          setIsSubscribed(isPushEnabled);
+        }
+      } catch (error) {
+        console.log('OneSignal not ready yet');
+      }
+    };
+    checkSubscription();
+  }, []);
+
+  // Handle bell click
+  const handleBellClick = async () => {
+    try {
+      // @ts-ignore
+      if (window.OneSignal) {
+        // @ts-ignore
+        const isPushEnabled = await window.OneSignal.User.PushSubscription.optedIn;
+
+        if (!isPushEnabled) {
+          // @ts-ignore
+          await window.OneSignal.Slidedown.promptPush();
+          setIsSubscribed(true);
+        }
+      }
+    } catch (error) {
+      console.error('Error managing notifications:', error);
+    }
+  };
 
   // Determine welcome button text
   const getWelcomeText = () => {
@@ -212,7 +252,8 @@ function Home() {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: '40px'
+        marginBottom: '40px',
+        position: 'relative'
       }}>
         <button
           onClick={handleReset}
@@ -225,17 +266,66 @@ function Home() {
             fontSize: '12px',
             fontWeight: '600',
             cursor: 'pointer',
-            transition: 'all 0.2s ease'
+            transition: 'all 0.2s ease',
+            flex: '0 0 auto'
           }}
         >
-          Reset Intro
+          Intro
         </button>
+
+        <div style={{
+          position: 'absolute',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '4px'
+        }}>
+          <button
+            onClick={handleBellClick}
+            style={{
+              backgroundColor: isSubscribed ? '#FFFFFF' : '#000000',
+              color: isSubscribed ? '#000000' : '#FFFFFF',
+              border: '1px solid #FFFFFF',
+              padding: '10px',
+              borderRadius: '50%',
+              width: '44px',
+              height: '44px',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: isSubscribed ? '0 0 20px rgba(255, 255, 255, 0.5)' : 'none'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.1)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
+            title={isSubscribed ? "You're subscribed to notifications" : "Click to enable notifications"}
+          >
+            <Bell size={20} strokeWidth={2} />
+          </button>
+          <span style={{
+            fontSize: '9px',
+            color: isSubscribed ? '#FFFFFF' : '#666666',
+            fontWeight: '600',
+            whiteSpace: 'nowrap',
+            letterSpacing: '0.5px'
+          }}>
+            {isSubscribed ? 'Notifications On' : 'Notifications Off'}
+          </span>
+        </div>
 
         <h1 style={{
           fontSize: '28px',
           fontWeight: '800',
           margin: 0,
-          color: '#FFFFFF'
+          color: '#FFFFFF',
+          flex: '0 0 auto'
         }}>
           AppCatalyst
         </h1>

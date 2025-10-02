@@ -1248,88 +1248,77 @@ supabase
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
     }}>
       <header style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         marginBottom: '40px'
       }}>
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-start',
-          marginBottom: '8px'
-        }}>
-          <button
-            onClick={() => navigate('/')}
-            style={{
-              backgroundColor: 'transparent',
-              color: '#FFFFFF',
-              border: '1px solid #333333',
-              padding: '8px 16px',
-              borderRadius: '8px',
-              fontSize: '12px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = '#FFFFFF';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = '#333333';
-            }}
-          >
-            ← Back
-          </button>
+        <button
+          onClick={() => navigate('/')}
+          style={{
+            backgroundColor: '#000000',
+            color: '#FFFFFF',
+            border: '1px solid #333333',
+            padding: '8px 16px',
+            borderRadius: '12px',
+            fontSize: '12px',
+            fontWeight: '600',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease'
+          }}
+        >
+          ← Back
+        </button>
 
-          <h1 style={{
-            fontSize: '28px',
-            fontWeight: '800',
-            margin: 0,
-            color: '#FFFFFF'
-          }}>
-            Auth
-          </h1>
-        </div>
-        {activeScreen === 'overview' && (
-          <div
-            className="breathe-box"
-            style={{
-              backgroundColor: '#0A0A0A',
-              border: '1px solid #FFFFFF',
-              borderRadius: '12px',
-              padding: '16px 20px',
-              marginTop: '20px',
-              marginLeft: '20px',
-              marginRight: '20px',
-              animation: 'breathe 2s ease-in-out infinite'
-            }}
-          >
-            <style>
-              {`
-                @keyframes breathe {
-                  0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 255, 255, 0); }
-                  50% { transform: scale(1.02); box-shadow: 0 0 20px rgba(255, 255, 255, 0.2); }
-                }
-              `}
-            </style>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '12px'
-            }}>
-              <ChevronDown size={20} strokeWidth={2.5} color="#FFFFFF" />
-              <p style={{
-                color: '#FFFFFF',
-                fontSize: '15px',
-                fontWeight: '600',
-                margin: 0
-              }}>
-                Click on any card below to see interactive demos
-              </p>
-              <ChevronDown size={20} strokeWidth={2.5} color="#FFFFFF" />
-            </div>
-          </div>
-        )}
+        <h1 style={{
+          fontSize: '28px',
+          fontWeight: '800',
+          margin: 0,
+          color: '#FFFFFF'
+        }}>
+          Auth
+        </h1>
       </header>
+
+      {activeScreen === 'overview' && (
+        <div
+          className="breathe-box"
+          style={{
+            backgroundColor: '#0A0A0A',
+            border: '1px solid #FFFFFF',
+            borderRadius: '12px',
+            padding: '16px 20px',
+            marginBottom: '20px',
+            animation: 'breathe 2s ease-in-out infinite'
+          }}
+        >
+          <style>
+            {`
+              @keyframes breathe {
+                0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 255, 255, 0); }
+                50% { transform: scale(1.02); box-shadow: 0 0 20px rgba(255, 255, 255, 0.2); }
+              }
+            `}
+          </style>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '12px'
+          }}>
+            <ChevronDown size={20} strokeWidth={2.5} color="#FFFFFF" />
+            <p style={{
+              color: '#FFFFFF',
+              fontSize: '15px',
+              fontWeight: '600',
+              margin: 0
+            }}>
+              Click on any card below to see interactive demos
+            </p>
+            <ChevronDown size={20} strokeWidth={2.5} color="#FFFFFF" />
+          </div>
+        </div>
+      )}
 
       {activeScreen === 'overview' && renderOverview()}
       {activeScreen === 'supabase' && renderSupabaseDemo()}
