@@ -8,6 +8,7 @@ type DemoScreen = 'overview' | 'login' | 'signup' | 'forgot' | 'email-verify' | 
 function LoginDemo() {
   const navigate = useNavigate();
   const [activeScreen, setActiveScreen] = useState<DemoScreen>('overview');
+  const isPWA = window.matchMedia('(display-mode: standalone)').matches;
   const isMobile = window.innerWidth <= 768;
 
   // Push notification state
@@ -1222,6 +1223,7 @@ supabase
       minHeight: '100vh',
       color: '#FFFFFF',
       padding: '20px',
+      paddingTop: isPWA ? 'max(env(safe-area-inset-top), 20px)' : '20px',
       paddingBottom: '100px',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
     }}>
