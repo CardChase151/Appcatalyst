@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield, LogIn, UserPlus, Key, Mail, Database, ChevronDown, Bell } from 'lucide-react';
+import { LogIn, UserPlus, Key, Mail, Database, ChevronDown, Bell } from 'lucide-react';
 import BottomBar from '../menu/bottombar';
 
 type DemoScreen = 'overview' | 'login' | 'signup' | 'forgot' | 'email-verify' | 'supabase' | 'push';
@@ -9,6 +9,12 @@ function LoginDemo() {
   const navigate = useNavigate();
   const [activeScreen, setActiveScreen] = useState<DemoScreen>('overview');
   const isMobile = window.innerWidth <= 768;
+
+  // Push notification state
+  const [pushTitle, setPushTitle] = useState('');
+  const [pushBody, setPushBody] = useState('');
+  const [pushSending, setPushSending] = useState(false);
+  const [pushMessage, setPushMessage] = useState('');
 
   const capabilities = [
     {
@@ -997,65 +1003,61 @@ supabase
     </div>
   );
 
-  const renderPushDemo = () => {
-    const [title, setTitle] = useState('');
-    const [body, setBody] = useState('');
-    const [sending, setSending] = useState(false);
-    const [message, setMessage] = useState('');
+  const sendTestNotification = async () => {
+    if (!pushTitle || !pushBody) {
+      setPushMessage('Please enter both title and body');
+      return;
+    }
 
-    const sendTestNotification = async () => {
-      if (!title || !body) {
-        setMessage('Please enter both title and body');
+    setPushSending(true);
+    setPushMessage('');
+
+    try {
+      // @ts-ignore - OneSignal is loaded globally
+      if (!window.OneSignal) {
+        throw new Error('OneSignal not initialized');
+      }
+
+      // @ts-ignore
+      const playerId = await window.OneSignal.getUserId();
+
+      if (!playerId) {
+        setPushMessage('Please subscribe to notifications first (click the bell icon)');
+        setPushSending(false);
         return;
       }
 
-      setSending(true);
-      setMessage('');
+      // Send notification using OneSignal API
+      const response = await fetch('https://onesignal.com/api/v1/notifications', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Basic os_v2_app_hvaeqga6tjby3huezhgp2oalpxuxwn7g2dvejlvvr2hhkfxddhvkek43izmd6npb5dmigxw3xrawew633rinyo3ufiljscqiqbgz37a'
+        },
+        body: JSON.stringify({
+          app_id: '3d404818-1e9a-438d-9e84-c9ccfd380b7d',
+          include_player_ids: [playerId],
+          headings: { en: pushTitle },
+          contents: { en: pushBody }
+        })
+      });
 
-      try {
-        // @ts-ignore - OneSignal is loaded globally
-        if (!window.OneSignal) {
-          throw new Error('OneSignal not initialized');
-        }
-
-        // @ts-ignore
-        const playerId = await window.OneSignal.getUserId();
-
-        if (!playerId) {
-          setMessage('Please subscribe to notifications first (click the bell icon)');
-          setSending(false);
-          return;
-        }
-
-        // Send notification using OneSignal API
-        const response = await fetch('https://onesignal.com/api/v1/notifications', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Basic os_v2_app_hvaeqga6tjby3huezhgp2oalpxuxwn7g2dvejlvvr2hhkfxddhvkek43izmd6npb5dmigxw3xrawew633rinyo3ufiljscqiqbgz37a'
-          },
-          body: JSON.stringify({
-            app_id: '3d404818-1e9a-438d-9e84-c9ccfd380b7d',
-            include_player_ids: [playerId],
-            headings: { en: title },
-            contents: { en: body }
-          })
-        });
-
-        if (response.ok) {
-          setMessage('✅ Notification sent successfully!');
-          setTitle('');
-          setBody('');
-        } else {
-          setMessage('❌ Failed to send notification');
-        }
-      } catch (error) {
-        console.error('Error sending notification:', error);
-        setMessage('❌ Error: ' + (error as Error).message);
-      } finally {
-        setSending(false);
+      if (response.ok) {
+        setPushMessage('✅ Notification sent successfully!');
+        setPushTitle('');
+        setPushBody('');
+      } else {
+        setPushMessage('❌ Failed to send notification');
       }
-    };
+    } catch (error) {
+      console.error('Error sending notification:', error);
+      setPushMessage('❌ Error: ' + (error as Error).message);
+    } finally {
+      setPushSending(false);
+    }
+  };
+
+  const renderPushDemo = () => {
 
     return (
       <div>
@@ -1120,8 +1122,8 @@ supabase
               </label>
               <input
                 type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                value={pushTitle}
+                onChange={(e) => setPushTitle(e.target.value)}
                 placeholder="e.g., New Message"
                 style={{
                   width: '100%',
@@ -1148,8 +1150,8 @@ supabase
                 Notification Body
               </label>
               <textarea
-                value={body}
-                onChange={(e) => setBody(e.target.value)}
+                value={pushBody}
+                onChange={(e) => setPushBody(e.target.value)}
                 placeholder="e.g., You have a new message from..."
                 style={{
                   width: '100%',
@@ -1170,7 +1172,7 @@ supabase
 
             <button
               onClick={sendTestNotification}
-              disabled={sending}
+              disabled={pushSending}
               style={{
                 width: '100%',
                 backgroundColor: '#9B59B6',
@@ -1180,25 +1182,25 @@ supabase
                 padding: '14px',
                 fontSize: '14px',
                 fontWeight: '600',
-                cursor: sending ? 'not-allowed' : 'pointer',
-                opacity: sending ? 0.6 : 1,
+                cursor: pushSending ? 'not-allowed' : 'pointer',
+                opacity: pushSending ? 0.6 : 1,
                 marginBottom: '12px'
               }}
             >
-              {sending ? 'Sending...' : 'Send to My Device'}
+              {pushSending ? 'Sending...' : 'Send to My Device'}
             </button>
 
-            {message && (
+            {pushMessage && (
               <div style={{
                 padding: '12px',
                 borderRadius: '8px',
-                backgroundColor: message.includes('✅') ? '#1A4D2E' : '#4D1A1A',
-                border: `1px solid ${message.includes('✅') ? '#2ECC71' : '#E74C3C'}`,
+                backgroundColor: pushMessage.includes('✅') ? '#1A4D2E' : '#4D1A1A',
+                border: `1px solid ${pushMessage.includes('✅') ? '#2ECC71' : '#E74C3C'}`,
                 color: '#FFFFFF',
                 fontSize: '13px',
                 textAlign: 'center'
               }}>
-                {message}
+                {pushMessage}
               </div>
             )}
           </div>
@@ -1277,32 +1279,14 @@ supabase
             ← Back
           </button>
 
-          <div style={{ textAlign: 'right' }}>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              justifyContent: 'flex-end',
-              marginBottom: '8px'
-            }}>
-              <h1 style={{
-                fontSize: '28px',
-                fontWeight: '800',
-                margin: 0,
-                color: '#FFFFFF'
-              }}>
-                Authentication Demo
-              </h1>
-              <Shield size={32} strokeWidth={1.5} color="#FFFFFF" />
-            </div>
-            <p style={{
-              color: '#666666',
-              fontSize: '13px',
-              margin: 0
-            }}>
-              Full-stack authentication implementation showcase
-            </p>
-          </div>
+          <h1 style={{
+            fontSize: '28px',
+            fontWeight: '800',
+            margin: 0,
+            color: '#FFFFFF'
+          }}>
+            Auth
+          </h1>
         </div>
         {activeScreen === 'overview' && (
           <div
