@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield, LogIn, UserPlus, Key, Mail, Database, ChevronDown } from 'lucide-react';
+import { Shield, LogIn, UserPlus, Key, Mail, Database, ChevronDown, Bell } from 'lucide-react';
 import BottomBar from '../menu/bottombar';
 
-type DemoScreen = 'overview' | 'login' | 'signup' | 'forgot' | 'email-verify' | 'supabase';
+type DemoScreen = 'overview' | 'login' | 'signup' | 'forgot' | 'email-verify' | 'supabase' | 'push';
 
 function LoginDemo() {
   const navigate = useNavigate();
@@ -45,6 +45,13 @@ function LoginDemo() {
       description: 'Automated email verification with resend functionality and expiring verification links.',
       icon: Mail,
       color: '#A8DADC'
+    },
+    {
+      id: 'push',
+      title: 'Push Notifications',
+      description: 'OneSignal integration for iOS and Android push notifications. Test sending notifications to your device.',
+      icon: Bell,
+      color: '#9B59B6'
     }
   ];
 
@@ -990,6 +997,245 @@ supabase
     </div>
   );
 
+  const renderPushDemo = () => {
+    const [title, setTitle] = useState('');
+    const [body, setBody] = useState('');
+    const [sending, setSending] = useState(false);
+    const [message, setMessage] = useState('');
+
+    const sendTestNotification = async () => {
+      if (!title || !body) {
+        setMessage('Please enter both title and body');
+        return;
+      }
+
+      setSending(true);
+      setMessage('');
+
+      try {
+        // @ts-ignore - OneSignal is loaded globally
+        if (!window.OneSignal) {
+          throw new Error('OneSignal not initialized');
+        }
+
+        // @ts-ignore
+        const playerId = await window.OneSignal.getUserId();
+
+        if (!playerId) {
+          setMessage('Please subscribe to notifications first (click the bell icon)');
+          setSending(false);
+          return;
+        }
+
+        // Send notification using OneSignal API
+        const response = await fetch('https://onesignal.com/api/v1/notifications', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Basic YOUR_REST_API_KEY' // This should be replaced with actual key or moved to backend
+          },
+          body: JSON.stringify({
+            app_id: '3d404818-1e9a-438d-9e84-c9ccfd380b7d',
+            include_player_ids: [playerId],
+            headings: { en: title },
+            contents: { en: body }
+          })
+        });
+
+        if (response.ok) {
+          setMessage('✅ Notification sent successfully!');
+          setTitle('');
+          setBody('');
+        } else {
+          setMessage('❌ Failed to send notification');
+        }
+      } catch (error) {
+        console.error('Error sending notification:', error);
+        setMessage('❌ Error: ' + (error as Error).message);
+      } finally {
+        setSending(false);
+      }
+    };
+
+    return (
+      <div>
+        <button
+          onClick={() => setActiveScreen('overview')}
+          style={{
+            backgroundColor: 'transparent',
+            border: '1px solid #333333',
+            color: '#FFFFFF',
+            padding: '8px 16px',
+            borderRadius: '8px',
+            fontSize: '12px',
+            cursor: 'pointer',
+            marginBottom: '20px'
+          }}
+        >
+          ← Back
+        </button>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
+          <Bell size={28} strokeWidth={1.5} color="#9B59B6" />
+          <h2 style={{
+            fontSize: '24px',
+            fontWeight: '700',
+            margin: 0,
+            color: '#FFFFFF'
+          }}>
+            Push Notifications Test
+          </h2>
+        </div>
+
+        <div style={{
+          backgroundColor: '#0A0A0A',
+          border: '1px solid #1A1A1A',
+          borderRadius: '16px',
+          padding: '24px',
+          marginBottom: '20px'
+        }}>
+          <div style={{
+            maxWidth: '500px',
+            margin: '0 auto'
+          }}>
+            <h3 style={{
+              fontSize: '20px',
+              fontWeight: '600',
+              margin: '0 0 24px 0',
+              color: '#FFFFFF',
+              textAlign: 'center'
+            }}>
+              Send Test Notification
+            </h3>
+
+            <div style={{ marginBottom: '16px' }}>
+              <label style={{
+                display: 'block',
+                fontSize: '12px',
+                fontWeight: '600',
+                color: '#CCCCCC',
+                marginBottom: '6px'
+              }}>
+                Notification Title
+              </label>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="e.g., New Message"
+                style={{
+                  width: '100%',
+                  backgroundColor: '#000000',
+                  border: '1px solid #333333',
+                  borderRadius: '8px',
+                  padding: '12px',
+                  color: '#FFFFFF',
+                  fontSize: '14px',
+                  outline: 'none',
+                  boxSizing: 'border-box'
+                }}
+              />
+            </div>
+
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{
+                display: 'block',
+                fontSize: '12px',
+                fontWeight: '600',
+                color: '#CCCCCC',
+                marginBottom: '6px'
+              }}>
+                Notification Body
+              </label>
+              <textarea
+                value={body}
+                onChange={(e) => setBody(e.target.value)}
+                placeholder="e.g., You have a new message from..."
+                style={{
+                  width: '100%',
+                  backgroundColor: '#000000',
+                  border: '1px solid #333333',
+                  borderRadius: '8px',
+                  padding: '12px',
+                  color: '#FFFFFF',
+                  fontSize: '14px',
+                  outline: 'none',
+                  boxSizing: 'border-box',
+                  minHeight: '100px',
+                  fontFamily: 'inherit',
+                  resize: 'vertical'
+                }}
+              />
+            </div>
+
+            <button
+              onClick={sendTestNotification}
+              disabled={sending}
+              style={{
+                width: '100%',
+                backgroundColor: '#9B59B6',
+                color: '#FFFFFF',
+                border: 'none',
+                borderRadius: '8px',
+                padding: '14px',
+                fontSize: '14px',
+                fontWeight: '600',
+                cursor: sending ? 'not-allowed' : 'pointer',
+                opacity: sending ? 0.6 : 1,
+                marginBottom: '12px'
+              }}
+            >
+              {sending ? 'Sending...' : 'Send to My Device'}
+            </button>
+
+            {message && (
+              <div style={{
+                padding: '12px',
+                borderRadius: '8px',
+                backgroundColor: message.includes('✅') ? '#1A4D2E' : '#4D1A1A',
+                border: `1px solid ${message.includes('✅') ? '#2ECC71' : '#E74C3C'}`,
+                color: '#FFFFFF',
+                fontSize: '13px',
+                textAlign: 'center'
+              }}>
+                {message}
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div style={{
+          backgroundColor: '#0A0A0A',
+          border: '1px solid #9B59B6',
+          borderRadius: '12px',
+          padding: '20px'
+        }}>
+          <h4 style={{
+            fontSize: '14px',
+            fontWeight: '600',
+            margin: '0 0 12px 0',
+            color: '#9B59B6'
+          }}>
+            How It Works
+          </h4>
+          <ul style={{
+            fontSize: '13px',
+            color: '#CCCCCC',
+            lineHeight: '1.8',
+            margin: 0,
+            paddingLeft: '20px'
+          }}>
+            <li>OneSignal SDK sends notifications to subscribed devices</li>
+            <li>Works on iOS (Safari/PWA) and Android (Chrome/PWA)</li>
+            <li>User must grant notification permission first</li>
+            <li>Notifications delivered even when app is closed</li>
+            <li>Test sends only to your subscribed device</li>
+          </ul>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div style={{
       backgroundColor: '#000000',
@@ -1107,6 +1353,7 @@ supabase
       {activeScreen === 'signup' && renderSignupDemo()}
       {activeScreen === 'forgot' && renderForgotDemo()}
       {activeScreen === 'email-verify' && renderEmailVerifyDemo()}
+      {activeScreen === 'push' && renderPushDemo()}
 
       <BottomBar activeTab="login-demo" />
     </div>
