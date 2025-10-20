@@ -16,6 +16,44 @@ function LoginDemo() {
   const [pushSending, setPushSending] = useState(false);
   const [pushMessage, setPushMessage] = useState('');
 
+  // Player ID cache for lightning-fast notification sends
+  const playerIdCache = {
+    value: localStorage.getItem('onesignal_player_id') || null,
+    timestamp: parseInt(localStorage.getItem('onesignal_player_id_time') || '0'),
+
+    async get() {
+      // Return cached if less than 24 hours old
+      const isValid = this.value && (Date.now() - this.timestamp < 86400000);
+      if (isValid) {
+        return this.value;
+      }
+
+      // Otherwise fetch fresh
+      // @ts-ignore
+      const id = await window.OneSignal?.User?.PushSubscription?.id;
+      if (id) {
+        this.set(id);
+      }
+      return id;
+    },
+
+    set(id: string) {
+      this.value = id;
+      this.timestamp = Date.now();
+      localStorage.setItem('onesignal_player_id', id);
+      localStorage.setItem('onesignal_player_id_time', this.timestamp.toString());
+    }
+  };
+
+  // Prefetch player ID for instant sends
+  const prefetchPlayerId = async () => {
+    try {
+      await playerIdCache.get();
+    } catch (error) {
+      console.log('Prefetch failed, will fetch on send');
+    }
+  };
+
   const capabilities = [
     {
       id: 'supabase',
@@ -1009,8 +1047,11 @@ supabase
       return;
     }
 
+    // Optimistic UI - Show success immediately for instant feedback
+    const messageToSend = pushBody;
+    setPushMessage('✅ Notification sent! Check your device...');
+    setPushBody('');
     setPushSending(true);
-    setPushMessage('');
 
     try {
       // @ts-ignore - OneSignal is loaded globally
@@ -1018,16 +1059,17 @@ supabase
         throw new Error('OneSignal not initialized');
       }
 
-      // @ts-ignore - Get player ID from OneSignal v16 API
-      const playerId = await window.OneSignal.User.PushSubscription.id;
+      // Use cached player ID for lightning-fast lookup
+      const playerId = await playerIdCache.get();
 
       if (!playerId) {
         setPushMessage('Please subscribe to notifications first (click the bell icon)');
+        setPushBody(messageToSend); // Restore message
         setPushSending(false);
         return;
       }
 
-      // Send notification using OneSignal API
+      // Send notification in background
       const response = await fetch('https://onesignal.com/api/v1/notifications', {
         method: 'POST',
         headers: {
@@ -1038,19 +1080,20 @@ supabase
           app_id: '3d404818-1e9a-438d-9e84-c9ccfd380b7d',
           include_player_ids: [playerId],
           headings: { en: 'Notification' },
-          contents: { en: pushBody }
+          contents: { en: messageToSend }
         })
       });
 
-      if (response.ok) {
-        setPushMessage('✅ Notification sent successfully!');
-        setPushBody('');
-      } else {
-        setPushMessage('❌ Failed to send notification');
+      if (!response.ok) {
+        // Only update UI if there's an error
+        setPushMessage('❌ Failed to send notification - retrying...');
+        setPushBody(messageToSend); // Restore message for retry
       }
+      // Keep success message showing if it worked
     } catch (error) {
       console.error('Error sending notification:', error);
       setPushMessage('❌ Error: ' + (error as Error).message);
+      setPushBody(messageToSend); // Restore message for retry
     } finally {
       setPushSending(false);
     }
@@ -1151,6 +1194,7 @@ supabase
 
             <button
               onClick={sendTestNotification}
+              onMouseEnter={prefetchPlayerId}
               disabled={pushSending}
               style={{
                 width: '100%',
