@@ -339,11 +339,12 @@ function Pricing() {
             lineHeight: '2'
           }}>
             <li>✓ Full-stack app development</li>
-            <li>✓ iOS & Android ready</li>
+            <li>✓ PWA (installs like a native app)</li>
+            <li>✓ Works on iOS & Android devices</li>
             <li>✓ Backend & database setup</li>
-            <li>✓ User authentication</li>
+            <li>✓ User authentication (login/signup)</li>
             <li>✓ Push notifications</li>
-            <li>✓ Compete with overseas quality</li>
+            <li>✓ Basic integrations (Stripe, email, maps)</li>
           </ul>
 
           <div style={{
@@ -417,6 +418,14 @@ function Pricing() {
                 appcatalyst.org →
               </a>
             </div>
+            <p style={{
+              fontSize: '11px',
+              color: '#CCCCCC',
+              margin: '12px 0 0 0',
+              lineHeight: '1.5'
+            }}>
+              <strong style={{ color: '#FFFFFF' }}>What's a PWA?</strong> A Progressive Web App works like a native app—installs to your home screen, works offline, sends push notifications—but doesn't require App Store approval. <strong style={{ color: '#FFFFFF' }}>Need App Store publishing?</strong> That's available in Custom Solutions.
+            </p>
           </div>
         </div>
 
@@ -477,11 +486,12 @@ function Pricing() {
             color: '#CCCCCC',
             lineHeight: '2'
           }}>
-            <li>✓ Complex integrations</li>
+            <li>✓ App Store & Google Play publishing</li>
+            <li>✓ AI integration (ChatGPT, Claude, etc.)</li>
+            <li>✓ Admin dashboards & team management</li>
+            <li>✓ Complex enterprise integrations</li>
             <li>✓ Scalable architecture</li>
-            <li>✓ Advanced features</li>
-            <li>✓ Ongoing support</li>
-            <li>✓ Team collaboration</li>
+            <li>✓ Ongoing support & maintenance</li>
           </ul>
 
           <div style={{
