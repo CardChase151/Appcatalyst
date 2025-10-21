@@ -369,6 +369,8 @@ function FAQ() {
   const navigate = useNavigate();
   const [openId, setOpenId] = useState<string | null>(null);
   const [filterCategory, setFilterCategory] = useState<string>('all');
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [searchMode, setSearchMode] = useState<'questions' | 'all'>('all');
 
   // Detect device and PWA mode
   const isPWA = window.matchMedia('(display-mode: standalone)').matches;
@@ -377,10 +379,22 @@ function FAQ() {
   // Get unique categories
   const categories = ['all', ...Array.from(new Set(faqs.map(faq => faq.category)))];
 
-  // Filter FAQs by category
-  const filteredFAQs = filterCategory === 'all'
-    ? faqs
-    : faqs.filter(faq => faq.category === filterCategory);
+  // Filter FAQs by category and search term
+  const filteredFAQs = faqs.filter(faq => {
+    // First filter by category
+    const matchesCategory = filterCategory === 'all' || faq.category === filterCategory;
+
+    // Then filter by search term
+    if (!searchTerm.trim()) {
+      return matchesCategory;
+    }
+
+    const searchLower = searchTerm.toLowerCase();
+    const questionMatch = faq.question.toLowerCase().includes(searchLower);
+    const answerMatch = searchMode === 'all' && faq.answer.toLowerCase().includes(searchLower);
+
+    return matchesCategory && (questionMatch || answerMatch);
+  });
 
   const toggleFAQ = (id: string) => {
     setOpenId(openId === id ? null : id);
@@ -487,6 +501,126 @@ function FAQ() {
         }}>
           Everything you need to know about building your app with AppCatalyst
         </p>
+      </div>
+
+      {/* Search Bar */}
+      <div style={{
+        maxWidth: '700px',
+        margin: '0 auto 40px auto',
+        padding: '0 20px'
+      }}>
+        {/* Search Input */}
+        <div style={{
+          position: 'relative',
+          marginBottom: '16px'
+        }}>
+          <input
+            type="text"
+            placeholder="Search FAQs..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{
+              width: '100%',
+              backgroundColor: '#0A0A0A',
+              color: '#FFFFFF',
+              border: '1px solid #333333',
+              borderRadius: '12px',
+              padding: '14px 48px 14px 20px',
+              fontSize: '16px',
+              outline: 'none',
+              transition: 'all 0.3s ease',
+              fontFamily: 'inherit'
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = '#FFFFFF';
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = '#333333';
+            }}
+          />
+          {searchTerm && (
+            <button
+              onClick={() => setSearchTerm('')}
+              style={{
+                position: 'absolute',
+                right: '12px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                backgroundColor: 'transparent',
+                border: 'none',
+                color: '#999999',
+                fontSize: '20px',
+                cursor: 'pointer',
+                padding: '4px 8px',
+                transition: 'color 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#FFFFFF';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = '#999999';
+              }}
+            >
+              ×
+            </button>
+          )}
+        </div>
+
+        {/* Search Mode Toggle */}
+        <div style={{
+          display: 'flex',
+          gap: '8px',
+          justifyContent: 'center'
+        }}>
+          <button
+            onClick={() => setSearchMode('questions')}
+            style={{
+              backgroundColor: searchMode === 'questions' ? '#FFFFFF' : 'transparent',
+              color: searchMode === 'questions' ? '#000000' : '#FFFFFF',
+              border: '1px solid #FFFFFF',
+              padding: '6px 14px',
+              borderRadius: '16px',
+              fontSize: '11px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px'
+            }}
+          >
+            Questions Only
+          </button>
+          <button
+            onClick={() => setSearchMode('all')}
+            style={{
+              backgroundColor: searchMode === 'all' ? '#FFFFFF' : 'transparent',
+              color: searchMode === 'all' ? '#000000' : '#FFFFFF',
+              border: '1px solid #FFFFFF',
+              padding: '6px 14px',
+              borderRadius: '16px',
+              fontSize: '11px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px'
+            }}
+          >
+            All Content
+          </button>
+        </div>
+
+        {/* Search Results Count */}
+        {searchTerm && (
+          <div style={{
+            textAlign: 'center',
+            marginTop: '12px',
+            fontSize: '13px',
+            color: '#666666'
+          }}>
+            {filteredFAQs.length} result{filteredFAQs.length !== 1 ? 's' : ''} found
+          </div>
+        )}
       </div>
 
       {/* Category Filter */}
