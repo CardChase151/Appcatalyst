@@ -34,7 +34,7 @@ function Home() {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [showInfoModal, setShowInfoModal] = useState(false);
 
-  // Check subscription status on mount
+  // Check subscription status on mount and set up listener
   useEffect(() => {
     const checkSubscription = async () => {
       try {
@@ -43,6 +43,12 @@ function Home() {
           // @ts-ignore
           const isPushEnabled = await window.OneSignal.User.PushSubscription.optedIn;
           setIsSubscribed(isPushEnabled);
+
+          // Set up event listener for subscription changes
+          // @ts-ignore
+          window.OneSignal.User.PushSubscription.addEventListener('change', (event: any) => {
+            setIsSubscribed(event.current.optedIn);
+          });
         }
       } catch (error) {
         console.log('OneSignal not ready yet');
@@ -51,7 +57,7 @@ function Home() {
     checkSubscription();
   }, []);
 
-  // Handle bell click
+  // Handle bell click with instant update
   const handleBellClick = async () => {
     try {
       // @ts-ignore
@@ -63,12 +69,10 @@ function Home() {
           // @ts-ignore
           await window.OneSignal.Slidedown.promptPush();
 
-          // Check actual permission status after prompt
-          setTimeout(async () => {
-            // @ts-ignore
-            const actualStatus = await window.OneSignal.User.PushSubscription.optedIn;
-            setIsSubscribed(actualStatus);
-          }, 500);
+          // Immediately check status after prompt (event listener will handle update)
+          // @ts-ignore
+          const actualStatus = await window.OneSignal.User.PushSubscription.optedIn;
+          setIsSubscribed(actualStatus);
         }
       }
     } catch (error) {
