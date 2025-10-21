@@ -12,6 +12,7 @@ import Search from './main/search';
 import Saved from './main/saved';
 import Contact from './main/contact';
 import PWA from './main/pwa';
+import FAQ from './main/faq';
 
 function AppContent() {
   return (
@@ -32,6 +33,7 @@ function AppContent() {
           <Route path="/saved" element={<Saved />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/pwa" element={<PWA />} />
+          <Route path="/faq" element={<FAQ />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
