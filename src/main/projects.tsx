@@ -216,6 +216,47 @@ function Projects() {
         </div>
       </header>
 
+      {/* FAQ Button */}
+      <div style={{
+        marginBottom: '40px',
+        display: 'flex',
+        justifyContent: 'center'
+      }}>
+        <button
+          onClick={() => navigate('/faq')}
+          style={{
+            backgroundColor: '#0A0A0A',
+            color: '#FFFFFF',
+            border: '2px solid #FFFFFF',
+            padding: '16px 32px',
+            borderRadius: '50px',
+            fontSize: '14px',
+            fontWeight: '700',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+            textTransform: 'uppercase',
+            letterSpacing: '1px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = '#FFFFFF';
+            e.currentTarget.style.color = '#000000';
+            e.currentTarget.style.transform = 'translateY(-2px)';
+            e.currentTarget.style.boxShadow = '0 8px 24px rgba(255, 255, 255, 0.3)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = '#0A0A0A';
+            e.currentTarget.style.color = '#FFFFFF';
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = 'none';
+          }}
+        >
+          📚 FAQs & Blog
+        </button>
+      </div>
+
       {/* Projects Grid */}
       <div style={{
         display: 'grid',
