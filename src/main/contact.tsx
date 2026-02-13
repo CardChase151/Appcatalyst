@@ -1,10 +1,25 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import BottomBar from '../menu/bottombar';
 import { supabase } from '../config/supabase';
 
 function Contact() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const contactType = searchParams.get('type') === 'support' ? 'support' : 'quote';
+
+  const setContactType = (type: 'quote' | 'support') => {
+    setSearchParams(type === 'quote' ? {} : { type: 'support' });
+    setStatus('idle');
+    setErrorMessage('');
+  };
+
+  const [supportData, setSupportData] = useState({
+    name: '',
+    email: '',
+    appName: '',
+    issue: ''
+  });
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -115,6 +130,64 @@ function Contact() {
     }
   };
 
+  const handleSupportChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setSupportData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSupportSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
+    setErrorMessage('');
+
+    try {
+      const { error: dbError } = await supabase
+        .from('contact_submissions')
+        .insert([{
+          first_name: supportData.name,
+          last_name: '',
+          email: supportData.email,
+          company: supportData.appName,
+          phone: '',
+          app_description: `[APP SUPPORT] App: ${supportData.appName}\n\n${supportData.issue}`,
+          budget_range: 'support',
+          platforms: [],
+          timeline: '',
+          has_design: ''
+        }]);
+
+      if (dbError) throw dbError;
+
+      const emailResponse = await fetch('/.netlify/functions/send-contact-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName: supportData.name,
+          lastName: '',
+          email: supportData.email,
+          company: supportData.appName,
+          phone: '',
+          appDescription: `[APP SUPPORT] App: ${supportData.appName}\n\n${supportData.issue}`,
+          budgetRange: 'support',
+          platforms: [],
+          timeline: '',
+          hasDesign: ''
+        })
+      });
+
+      if (!emailResponse.ok) {
+        console.error('Email failed but submission saved');
+      }
+
+      setStatus('success');
+      setSupportData({ name: '', email: '', appName: '', issue: '' });
+      setTimeout(() => setStatus('idle'), 5000);
+    } catch (error: any) {
+      setStatus('error');
+      setErrorMessage(error.message || 'Something went wrong. Please try again.');
+    }
+  };
+
   const isPWA = window.matchMedia('(display-mode: standalone)').matches;
 
   return (
@@ -160,6 +233,52 @@ function Contact() {
         </button>
       </header>
 
+      {/* Toggle */}
+      <div style={{
+        display: 'flex',
+        maxWidth: '400px',
+        margin: '0 auto 30px auto',
+        backgroundColor: '#0A0A0A',
+        borderRadius: '12px',
+        padding: '4px',
+        border: '1px solid #222222'
+      }}>
+        <button
+          onClick={() => setContactType('quote')}
+          style={{
+            flex: 1,
+            backgroundColor: contactType === 'quote' ? '#FFFFFF' : 'transparent',
+            color: contactType === 'quote' ? '#000000' : '#999999',
+            border: 'none',
+            padding: '12px 16px',
+            borderRadius: '10px',
+            fontSize: '14px',
+            fontWeight: '700',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease'
+          }}
+        >
+          Get a Quote
+        </button>
+        <button
+          onClick={() => setContactType('support')}
+          style={{
+            flex: 1,
+            backgroundColor: contactType === 'support' ? '#FFFFFF' : 'transparent',
+            color: contactType === 'support' ? '#000000' : '#999999',
+            border: 'none',
+            padding: '12px 16px',
+            borderRadius: '10px',
+            fontSize: '14px',
+            fontWeight: '700',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease'
+          }}
+        >
+          App Support
+        </button>
+      </div>
+
       {/* Main Content */}
       <div style={{
         backgroundColor: '#000000',
@@ -177,7 +296,7 @@ function Contact() {
           color: '#FFFFFF',
           textAlign: 'center'
         }}>
-          Get In Touch
+          {contactType === 'quote' ? 'Get In Touch' : 'App Support'}
         </h2>
 
         <p style={{
@@ -187,9 +306,130 @@ function Contact() {
           margin: '0 0 30px 0',
           textAlign: 'center'
         }}>
-          Ready to bring your app idea to life? Fill out the form below and let's discuss your project with <strong>AppCatalyst</strong>! Be honest about your budget to help us provide the best solution for you.
+          {contactType === 'quote'
+            ? <>Ready to bring your app idea to life? Fill out the form below and let's discuss your project with <strong>AppCatalyst</strong>! Be honest about your budget to help us provide the best solution for you.</>
+            : <>Having an issue with one of our apps? Describe the problem below and we'll get back to you as soon as possible.</>
+          }
         </p>
 
+        {contactType === 'support' ? (
+          <form onSubmit={handleSupportSubmit}>
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', marginBottom: '8px', color: '#FFFFFF' }}>
+                Your Name *
+              </label>
+              <input
+                type="text"
+                name="name"
+                value={supportData.name}
+                onChange={handleSupportChange}
+                required
+                style={{
+                  width: '100%', backgroundColor: '#000000', border: '1px solid #333333', borderRadius: '8px',
+                  padding: '12px', fontSize: '16px', color: '#FFFFFF', outline: 'none',
+                  transition: 'border-color 0.2s ease', boxSizing: 'border-box'
+                }}
+                onFocus={(e) => e.target.style.borderColor = '#FFFFFF'}
+                onBlur={(e) => e.target.style.borderColor = '#333333'}
+              />
+            </div>
+
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', marginBottom: '8px', color: '#FFFFFF' }}>
+                Email *
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={supportData.email}
+                onChange={handleSupportChange}
+                required
+                style={{
+                  width: '100%', backgroundColor: '#000000', border: '1px solid #333333', borderRadius: '8px',
+                  padding: '12px', fontSize: '16px', color: '#FFFFFF', outline: 'none',
+                  transition: 'border-color 0.2s ease', boxSizing: 'border-box'
+                }}
+                onFocus={(e) => e.target.style.borderColor = '#FFFFFF'}
+                onBlur={(e) => e.target.style.borderColor = '#333333'}
+              />
+            </div>
+
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', marginBottom: '8px', color: '#FFFFFF' }}>
+                App Name *
+              </label>
+              <input
+                type="text"
+                name="appName"
+                value={supportData.appName}
+                onChange={handleSupportChange}
+                required
+                placeholder="e.g. UniTeam, CardChase, RemedyGo"
+                style={{
+                  width: '100%', backgroundColor: '#000000', border: '1px solid #333333', borderRadius: '8px',
+                  padding: '12px', fontSize: '16px', color: '#FFFFFF', outline: 'none',
+                  transition: 'border-color 0.2s ease', boxSizing: 'border-box'
+                }}
+                onFocus={(e) => e.target.style.borderColor = '#FFFFFF'}
+                onBlur={(e) => e.target.style.borderColor = '#333333'}
+              />
+            </div>
+
+            <div style={{ marginBottom: '24px' }}>
+              <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', marginBottom: '8px', color: '#FFFFFF' }}>
+                Describe Your Issue *
+              </label>
+              <textarea
+                name="issue"
+                value={supportData.issue}
+                onChange={handleSupportChange}
+                required
+                rows={5}
+                placeholder="What's happening? Include any error messages or steps to reproduce..."
+                style={{
+                  width: '100%', backgroundColor: '#000000', border: '1px solid #333333', borderRadius: '8px',
+                  padding: '12px', fontSize: '16px', color: '#FFFFFF', outline: 'none',
+                  transition: 'border-color 0.2s ease', resize: 'vertical', fontFamily: 'inherit', boxSizing: 'border-box'
+                }}
+                onFocus={(e) => e.target.style.borderColor = '#FFFFFF'}
+                onBlur={(e) => e.target.style.borderColor = '#333333'}
+              />
+            </div>
+
+            {status === 'success' && (
+              <div style={{
+                backgroundColor: '#000000', border: '1px solid #4ECDC4', borderRadius: '8px',
+                padding: '12px', marginBottom: '20px', color: '#4ECDC4', fontSize: '14px', textAlign: 'center'
+              }}>
+                Thank you! Your support request has been received. We'll get back to you within 24-48 hours.
+              </div>
+            )}
+
+            {status === 'error' && (
+              <div style={{
+                backgroundColor: '#000000', border: '1px solid #FF6B6B', borderRadius: '8px',
+                padding: '12px', marginBottom: '20px', color: '#FF6B6B', fontSize: '14px', textAlign: 'center'
+              }}>
+                {errorMessage}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={status === 'loading'}
+              style={{
+                width: '100%', backgroundColor: status === 'loading' ? '#333333' : '#000000',
+                color: '#FFFFFF', border: '1px solid #FFFFFF', padding: '14px 24px',
+                borderRadius: '12px', fontSize: '16px', fontWeight: '700',
+                cursor: status === 'loading' ? 'not-allowed' : 'pointer', transition: 'all 0.2s ease'
+              }}
+            >
+              {status === 'loading' ? 'Submitting...' : 'Submit Support Request'}
+            </button>
+          </form>
+        ) : (
+
+        <>
         {/* Contact Form */}
         <form onSubmit={handleSubmit}>
           {/* Name Fields */}
@@ -613,6 +853,8 @@ function Contact() {
             {status === 'loading' ? 'Submitting...' : 'Submit Project Inquiry'}
           </button>
         </form>
+        </>
+        )}
       </div>
 
       {/* Tips */}
