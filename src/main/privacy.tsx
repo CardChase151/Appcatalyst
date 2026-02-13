@@ -80,7 +80,7 @@ If analytics are implemented, we use privacy-respecting, anonymous usage data to
     },
     {
       title: 'Children\'s Privacy',
-      content: `Our apps are not directed at children under the age of 13. We do not knowingly collect personal information from children under 13. If you believe a child under 13 has provided us with personal data, please contact us and we will promptly delete it.`
+      content: `Some of our apps are designed for general audiences, while others require users to be 18 or older. None of our apps are directed at children under the age of 13, and we do not knowingly collect personal information from children under 13. If you believe a child under 13 has provided us with personal data, please contact us and we will promptly delete it.`
     },
     {
       title: 'Changes to This Policy',
