@@ -243,6 +243,53 @@ Chase Kellis`
         ))}
       </div>
 
+      {/* CSAE Policy Link */}
+      <div style={{
+        maxWidth: '800px',
+        margin: '40px auto 0 auto'
+      }}>
+        <button
+          onClick={() => navigate('/csae-policy')}
+          style={{
+            width: '100%',
+            backgroundColor: '#0A0A0A',
+            border: '1px solid #222222',
+            borderRadius: '12px',
+            padding: '24px',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            transition: 'all 0.3s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = '#22c55e';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = '#222222';
+          }}
+        >
+          <div style={{ textAlign: 'left' }}>
+            <h3 style={{
+              fontSize: isMobile ? '16px' : '18px',
+              fontWeight: '700',
+              color: '#FFFFFF',
+              margin: '0 0 6px 0'
+            }}>
+              Child Safety Standards (CSAE Policy)
+            </h3>
+            <p style={{
+              fontSize: '14px',
+              color: '#999999',
+              margin: 0
+            }}>
+              Our standards against child sexual abuse and exploitation
+            </p>
+          </div>
+          <span style={{ color: '#666666', fontSize: '20px', flexShrink: 0, marginLeft: '16px' }}>&#8594;</span>
+        </button>
+      </div>
+
       <BottomBar activeTab="projects" />
     </div>
   );

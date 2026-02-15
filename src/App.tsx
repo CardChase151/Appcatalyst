@@ -14,6 +14,7 @@ import Contact from './main/contact';
 import PWA from './main/pwa';
 import FAQ from './main/faq';
 import Privacy from './main/privacy';
+import CSAEPolicy from './main/csae-policy';
 
 function AppContent() {
   return (
@@ -36,6 +37,7 @@ function AppContent() {
           <Route path="/pwa" element={<PWA />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/privacy" element={<Privacy />} />
+          <Route path="/csae-policy" element={<CSAEPolicy />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
