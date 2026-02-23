@@ -83,19 +83,23 @@ function main() {
   // Update sitemap with new blog posts
   updateSitemap(published);
 
-  // Git commit and push
-  try {
-    execSync('git add public/blog/', { cwd: PROJECT_DIR, stdio: 'pipe' });
-    execSync('git add public/sitemap.xml', { cwd: PROJECT_DIR, stdio: 'pipe' });
+  // Git commit and push (only when running locally, not in GitHub Actions)
+  if (!process.env.GITHUB_ACTIONS) {
+    try {
+      execSync('git add public/blog/', { cwd: PROJECT_DIR, stdio: 'pipe' });
+      execSync('git add public/sitemap.xml', { cwd: PROJECT_DIR, stdio: 'pipe' });
 
-    const titles = due.map(d => d.title).join(', ');
-    const msg = `Publish blog: ${titles}`;
-    execSync(`git commit -m "${msg}"`, { cwd: PROJECT_DIR, stdio: 'pipe' });
-    execSync('git push', { cwd: PROJECT_DIR, stdio: 'pipe' });
+      const titles = due.map(d => d.title).join(', ');
+      const msg = `Publish blog: ${titles}`;
+      execSync(`git commit -m "${msg}"`, { cwd: PROJECT_DIR, stdio: 'pipe' });
+      execSync('git push', { cwd: PROJECT_DIR, stdio: 'pipe' });
 
-    console.log('[GIT] Committed and pushed. Netlify will auto-deploy.');
-  } catch (err) {
-    console.error('[GIT] Error:', err.message);
+      console.log('[GIT] Committed and pushed. Netlify will auto-deploy.');
+    } catch (err) {
+      console.error('[GIT] Error:', err.message);
+    }
+  } else {
+    console.log('[CI] Running in GitHub Actions - git handled by workflow.');
   }
 }
 
