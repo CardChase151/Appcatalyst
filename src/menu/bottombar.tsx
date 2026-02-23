@@ -13,11 +13,12 @@ const HomeIcon = () => (
   </svg>
 );
 
-const LoginIcon = () => (
+const BlogIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-    <path d="M15 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M10 17L15 12L10 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M15 12H3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M4 19.5C4 18.837 4.26339 18.2011 4.73223 17.7322C5.20107 17.2634 5.83696 17 6.5 17H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M6.5 2H20V22H6.5C5.83696 22 5.20107 21.7366 4.73223 21.2678C4.26339 20.7989 4 20.163 4 19.5V4.5C4 3.83696 4.26339 3.20107 4.73223 2.73223C5.20107 2.26339 5.83696 2 6.5 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M8 7H16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+    <path d="M8 11H13" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
   </svg>
 );
 
@@ -48,7 +49,7 @@ function BottomBar({ activeTab }: BottomBarProps) {
   const tabs = [
     { id: 'home', label: 'Home', icon: <HomeIcon /> },
     { id: 'pricing', label: 'Pricing', icon: <PricingIcon /> },
-    { id: 'login-demo', label: 'Auth', icon: <LoginIcon /> },
+    { id: 'blog', label: 'Blog', icon: <BlogIcon /> },
     { id: 'contact', label: 'Contact', icon: <ContactIcon /> },
     { id: 'pwa', label: 'App', icon: <AppIcon /> }
   ];
