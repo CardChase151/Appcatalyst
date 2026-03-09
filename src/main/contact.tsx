@@ -401,7 +401,7 @@ function Contact() {
                 backgroundColor: '#000000', border: '1px solid #4ECDC4', borderRadius: '8px',
                 padding: '12px', marginBottom: '20px', color: '#4ECDC4', fontSize: '14px', textAlign: 'center'
               }}>
-                Thank you! Your support request has been received. We'll get back to you within 24-48 hours.
+                Thank you! Your support request has been received. Check your email (and spam folder) for a confirmation from mysendz.com. We'll get back to you within 24-48 hours.
               </div>
             )}
 
@@ -814,7 +814,7 @@ function Contact() {
               fontSize: '14px',
               textAlign: 'center'
             }}>
-              Thank you! Your submission has been received. Check your email for confirmation and I'll be in touch within 24-48 hours!
+              Thank you! Your submission has been received. Check your email (and spam folder) for a confirmation from mysendz.com. I'll be in touch within 24-48 hours!
             </div>
           )}
 
@@ -867,7 +867,7 @@ function Contact() {
           fontSize: '14px',
           margin: 0
         }}>
-          Your information is stored securely. You'll receive a confirmation email immediately.
+          Your information is stored securely. You'll receive a confirmation email from mysendz.com.
         </p>
       </div>
 

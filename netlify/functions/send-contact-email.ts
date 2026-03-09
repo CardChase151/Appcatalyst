@@ -44,7 +44,7 @@ export const handler: Handler = async (event) => {
     // Email to you (owner)
     console.log('📤 Sending email to owner...');
     const ownerEmail = await resend.emails.send({
-      from: 'AppCatalyst Contact Form <onboarding@resend.dev>',
+      from: 'AppCatalyst Contact Form <noreply@mysendz.com>',
       to: 'thek2way17@gmail.com',
       subject: subject,
       html: `
@@ -74,7 +74,7 @@ export const handler: Handler = async (event) => {
     // Confirmation email to client
     console.log('📤 Sending confirmation to client...');
     const clientEmail = await resend.emails.send({
-      from: 'Chase at AppCatalyst <onboarding@resend.dev>',
+      from: 'Chase at AppCatalyst <chase@mysendz.com>',
       to: email,
       subject: 'Thanks for reaching out! - AppCatalyst',
       html: `
@@ -86,7 +86,7 @@ export const handler: Handler = async (event) => {
         <p><strong>Budget Range:</strong> ${budgetRange.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</p>
         <p><strong>Timeline:</strong> ${timeline.replace(/-/g, ' ')}</p>
 
-        <p>In the meantime, feel free to check out my portfolio and previous projects at <a href="https://appcatalyst.dev">appcatalyst.dev</a></p>
+        <p>In the meantime, feel free to check out my portfolio and previous projects at <a href="https://appcatalyst.org">appcatalyst.org</a></p>
 
         <p>Looking forward to discussing your project!</p>
 
