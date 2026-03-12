@@ -25,21 +25,18 @@ function PWA() {
     };
   }, []);
 
-  const seo = (
-    <SEO
-      title="Install App - Progressive Web App"
-      description="Install AppCatalyst as a progressive web app on your device. Fast, native-like experience right from your home screen."
-      keywords="progressive web app, install web app, PWA app development"
-      path="/pwa"
-    />
-  );
-
   // Step 1: Welcome screen (Desktop shows profile, Mobile shows install or already installed)
   if (step === 1) {
     // Already in PWA mode: Show "Already Installed" message
     if (isPWA) {
       return (
         <>
+          <SEO
+            title="Install App - Progressive Web App"
+            description="Install AppCatalyst as a progressive web app on your device. Fast, native-like experience right from your home screen."
+            keywords="progressive web app, install web app, PWA app development"
+            path="/pwa"
+          />
           <div style={{
             backgroundColor: '#000000',
             minHeight: '100vh',

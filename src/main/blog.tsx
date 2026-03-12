@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Clock, Search } from 'lucide-react';
+import { ArrowRight, Clock } from 'lucide-react';
 import BottomBar from '../menu/bottombar';
 import SEO from '../components/SEO';
 
