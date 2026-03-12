@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Clock, Share2 } from 'lucide-react';
 import BottomBar from '../menu/bottombar';
+import SEO from '../components/SEO';
 
 interface BlogPostData {
   slug: string;
@@ -43,14 +44,7 @@ function BlogPost() {
       .catch(() => setLoading(false));
   }, [slug]);
 
-  useEffect(() => {
-    if (post) {
-      document.title = `${post.title} | AppCatalyst Blog`;
-    }
-    return () => {
-      document.title = 'AppCatalyst - Affordable App Development for Startups | Chase Kellis';
-    };
-  }, [post]);
+  // Title handled by SEO component
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr + 'T12:00:00');
@@ -96,6 +90,13 @@ function BlogPost() {
       paddingBottom: '100px',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
     }}>
+      <SEO
+        title={post.title}
+        description={post.description}
+        keywords={post.keyword}
+        path={`/blog/${slug}`}
+        type="article"
+      />
       <header style={{
         display: 'flex',
         justifyContent: 'space-between',

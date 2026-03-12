@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Briefcase, Rocket, Zap, DollarSign, Globe, TrendingUp, Clock } from 'lucide-react';
 import BottomBar from '../menu/bottombar';
+import SEO from '../components/SEO';
 
 function Pricing() {
   const navigate = useNavigate();
@@ -20,6 +21,12 @@ function Pricing() {
       paddingBottom: '120px',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
     }}>
+      <SEO
+        title="App Development Pricing"
+        description="Transparent, fixed-price app development. Websites from $1K, mobile apps from $3K-$5K. No hidden fees, no hourly billing. Orange County based, serving clients nationwide."
+        keywords="app development pricing, how much does an app cost, affordable app development cost, fixed price app developer, mobile app pricing, website development cost, cheap app development pricing"
+        path="/pricing"
+      />
       {/* Header */}
       <header style={{
         display: 'flex',

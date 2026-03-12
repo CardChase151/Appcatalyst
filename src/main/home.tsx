@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Bell, Info, X } from 'lucide-react';
 import BottomBar from '../menu/bottombar';
+import SEO from '../components/SEO';
 
 function Home() {
   const navigate = useNavigate();
@@ -135,6 +136,12 @@ function Home() {
 
   return (
     <>
+      <SEO
+        title="Affordable App Development for Startups"
+        description="Custom mobile apps from $5K and websites from $1K. Senior US developer in Orange County, CA with 25+ apps shipped since 2019. React Native, React, and Supabase development."
+        keywords="affordable app development, app developer Orange County, mobile app developer Southern California, startup app developer, small business app development, React Native developer, iOS Android app developer near me, cheap app development USA"
+        path="/"
+      />
       {/* Welcome Button Overlay - MUST BE FIRST */}
       {showWelcomeButton && (
         <div style={{

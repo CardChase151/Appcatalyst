@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import BottomBar from '../menu/bottombar';
 import { supabase } from '../config/supabase';
+import SEO from '../components/SEO';
 
 function Contact() {
   const navigate = useNavigate();
@@ -199,6 +200,12 @@ function Contact() {
       paddingTop: isPWA ? 'max(env(safe-area-inset-top), 20px)' : '20px',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
     }}>
+      <SEO
+        title="Contact - Get a Free Quote"
+        description="Get a free app development quote from AppCatalyst. Tell us about your project and get transparent pricing within 24 hours. Based in Orange County, CA, serving clients nationwide."
+        keywords="app development quote, hire app developer, contact app developer, get app built, free app quote, app development consultation"
+        path="/contact"
+      />
       {/* Header */}
       <header style={{
         display: 'flex',

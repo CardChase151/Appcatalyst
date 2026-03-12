@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronDown, MessageCircle } from 'lucide-react';
 import BottomBar from '../menu/bottombar';
+import SEO from '../components/SEO';
 
 interface FAQItem {
   id: string;
@@ -424,6 +425,12 @@ function FAQ() {
       paddingBottom: '120px',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
     }}>
+      <SEO
+        title="FAQ - App Development Questions"
+        description="Common questions about app development costs, timelines, process, and what to expect. Get clear answers about working with AppCatalyst."
+        keywords="app development FAQ, app development questions, how long does it take to build an app, app development process, app development timeline"
+        path="/faq"
+      />
       {/* SEO Schema */}
       <script type="application/ld+json">
         {JSON.stringify(faqSchema)}

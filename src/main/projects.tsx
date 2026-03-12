@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BottomBar from '../menu/bottombar';
+import SEO from '../components/SEO';
 
 interface Project {
   id: string;
@@ -134,6 +135,12 @@ function Projects() {
       paddingTop: isPWA ? 'max(env(safe-area-inset-top), 20px)' : '20px',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
     }}>
+      <SEO
+        title="Our Work - App Portfolio"
+        description="See 25+ apps and websites built by AppCatalyst. Real projects for real businesses including healthcare apps, trading platforms, and business tools. React Native and React development."
+        keywords="app development portfolio, mobile app examples, react native apps, app developer work samples, custom app projects, startup app portfolio"
+        path="/work"
+      />
       {/* Header */}
       <header style={{
         marginBottom: '40px'

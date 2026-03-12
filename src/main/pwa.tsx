@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BottomBar from '../menu/bottombar';
+import SEO from '../components/SEO';
 
 function PWA() {
   const navigate = useNavigate();
@@ -23,6 +24,15 @@ function PWA() {
       document.body.classList.remove('pwa-active');
     };
   }, []);
+
+  const seo = (
+    <SEO
+      title="Install App - Progressive Web App"
+      description="Install AppCatalyst as a progressive web app on your device. Fast, native-like experience right from your home screen."
+      keywords="progressive web app, install web app, PWA app development"
+      path="/pwa"
+    />
+  );
 
   // Step 1: Welcome screen (Desktop shows profile, Mobile shows install or already installed)
   if (step === 1) {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Clock, Search } from 'lucide-react';
 import BottomBar from '../menu/bottombar';
+import SEO from '../components/SEO';
 
 interface BlogPost {
   slug: string;
@@ -44,6 +45,12 @@ function Blog() {
       paddingBottom: '100px',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
     }}>
+      <SEO
+        title="Blog - App Development Insights"
+        description="Practical guides on app development costs, timelines, and strategy for startups and small businesses. Learn what it really costs to build an app in 2026."
+        keywords="app development blog, how much does an app cost, app development guide, startup app tips, mobile app cost breakdown"
+        path="/blog"
+      />
       <header style={{
         display: 'flex',
         justifyContent: 'space-between',
