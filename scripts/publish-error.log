@@ -6,3 +6,7 @@ fatal: could not read Username for 'https://github.com': Device not configured
 failed to get: -25320
 fatal: could not read Username for 'https://github.com': Device not configured
 
+[GIT] Error: Command failed: git push
+failed to get: -25320
+fatal: could not read Username for 'https://github.com': Device not configured
+

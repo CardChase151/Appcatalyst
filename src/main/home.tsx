@@ -513,6 +513,46 @@ function Home() {
                   Client Portal
                 </span>
               </button>
+
+              <button
+                className="sleek-btn"
+                onClick={() => window.open('https://bilt.appcatalyst.org', '_blank')}
+                style={{
+                  position: 'relative',
+                  backgroundColor: 'transparent',
+                  color: '#4da6ff',
+                  border: '1.5px solid #4da6ff',
+                  padding: '14px 32px',
+                  borderRadius: '50px',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  cursor: 'pointer',
+                  letterSpacing: '0.5px',
+                  transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                  overflow: 'hidden'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = '0 0 20px rgba(77, 166, 255, 0.3), inset 0 0 20px rgba(77, 166, 255, 0.1)';
+                  e.currentTarget.style.transform = 'translateY(-1px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = 'none';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+                onMouseDown={(e) => {
+                  e.currentTarget.style.transform = 'scale(0.98)';
+                }}
+                onMouseUp={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-1px)';
+                }}
+              >
+                <span style={{
+                  position: 'relative',
+                  zIndex: 1
+                }}>
+                  Here for Bilt?
+                </span>
+              </button>
             </div>
 
             <img
