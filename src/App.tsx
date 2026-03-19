@@ -15,6 +15,7 @@ import Contact from './main/contact';
 import PWA from './main/pwa';
 import FAQ from './main/faq';
 import Privacy from './main/privacy';
+import Terms from './main/terms';
 import CSAEPolicy from './main/csae-policy';
 import Blog from './main/blog';
 import BlogPost from './main/blogpost';
@@ -40,6 +41,7 @@ function AppContent() {
           <Route path="/pwa" element={<PWA />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
           <Route path="/csae-policy" element={<CSAEPolicy />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
