@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShieldCheck } from 'lucide-react';
 import BottomBar from '../menu/bottombar';
+import SEO from '../components/SEO';
 
 function CSAEPolicy() {
   const navigate = useNavigate();
@@ -112,6 +113,12 @@ Huntington Beach, CA`
   ];
 
   return (
+    <>
+    <SEO
+      title="CSAE Policy"
+      description="AppCatalyst child safety and anti-exploitation policy. Zero tolerance for CSAE across all applications."
+      path="/csae-policy"
+    />
     <div style={{
       backgroundColor: '#000000',
       minHeight: '100vh',
@@ -242,6 +249,7 @@ Huntington Beach, CA`
 
       <BottomBar activeTab="projects" />
     </div>
+    </>
   );
 }
 

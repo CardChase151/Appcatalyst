@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FileText } from 'lucide-react';
 import BottomBar from '../menu/bottombar';
+import SEO from '../components/SEO';
 
 function Terms() {
   const navigate = useNavigate();
@@ -80,6 +81,12 @@ Costa Mesa, CA`
   ];
 
   return (
+    <>
+    <SEO
+      title="Terms and Conditions"
+      description="AppCatalyst terms and conditions for use of our applications and services."
+      path="/terms"
+    />
     <div style={{
       backgroundColor: '#000000',
       minHeight: '100vh',
@@ -196,6 +203,7 @@ Costa Mesa, CA`
 
       <BottomBar activeTab="projects" />
     </div>
+    </>
   );
 }
 

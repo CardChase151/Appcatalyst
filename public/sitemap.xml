@@ -49,6 +49,12 @@
     <priority>0.3</priority>
   </url>
   <url>
+    <loc>https://appcatalyst.org/terms</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
     <loc>https://appcatalyst.org/blog</loc>
     <lastmod>2026-03-11</lastmod>
     <changefreq>weekly</changefreq>

@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Shield } from 'lucide-react';
 import BottomBar from '../menu/bottombar';
+import SEO from '../components/SEO';
 
 function Privacy() {
   const navigate = useNavigate();
@@ -98,6 +99,12 @@ Chase Kellis`
   ];
 
   return (
+    <>
+    <SEO
+      title="Privacy Policy"
+      description="AppCatalyst privacy policy. Learn how we collect, use, and protect your data across our applications."
+      path="/privacy"
+    />
     <div style={{
       backgroundColor: '#000000',
       minHeight: '100vh',
@@ -292,6 +299,7 @@ Chase Kellis`
 
       <BottomBar activeTab="projects" />
     </div>
+    </>
   );
 }
 
