@@ -65,14 +65,12 @@ function main() {
       fs.copyFileSync(draftContent, path.join(PUBLIC_BLOG_CONTENT, `${entry.slug}.html`));
     }
 
-    // Copy static HTML for SEO
+    // Copy static HTML for SEO as a flat file (build/blog/<slug>.html
+    // instead of build/blog/<slug>/index.html) so Netlify serves it
+    // directly at /blog/<slug> without a 301 redirect to add a trailing
+    // slash. Same pattern scripts/prerender.js uses for the main routes.
     if (fs.existsSync(draftStaticHtml)) {
-      // Create slug directory for clean URLs
-      const slugDir = path.join(PUBLIC_BLOG, entry.slug);
-      if (!fs.existsSync(slugDir)) {
-        fs.mkdirSync(slugDir, { recursive: true });
-      }
-      fs.copyFileSync(draftStaticHtml, path.join(slugDir, 'index.html'));
+      fs.copyFileSync(draftStaticHtml, path.join(PUBLIC_BLOG, `${entry.slug}.html`));
     }
 
     // Add to published list
