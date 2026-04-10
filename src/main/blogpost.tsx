@@ -27,7 +27,7 @@ function BlogPost() {
         const found = data.find((p: BlogPostData) => p.slug === slug);
         if (found) {
           // Load the full content
-          fetch(`/blog/${slug}.html`)
+          fetch(`/blog-content/${slug}.html`)
             .then(res => res.text())
             .then(html => {
               setPost({ ...found, content: html });

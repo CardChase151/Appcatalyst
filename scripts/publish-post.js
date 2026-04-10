@@ -14,6 +14,7 @@ const { execSync } = require('child_process');
 const PROJECT_DIR = path.join(__dirname, '..');
 const DRAFTS_DIR = path.join(PROJECT_DIR, 'blog-drafts');
 const PUBLIC_BLOG = path.join(PROJECT_DIR, 'public', 'blog');
+const PUBLIC_BLOG_CONTENT = path.join(PROJECT_DIR, 'public', 'blog-content');
 const POSTS_JSON = path.join(PUBLIC_BLOG, 'posts.json');
 const CALENDAR_PATH = path.join(__dirname, 'content-calendar.json');
 const SITEMAP_PATH = path.join(PROJECT_DIR, 'public', 'sitemap.xml');
@@ -54,9 +55,14 @@ function main() {
     // Read draft metadata
     const postMeta = JSON.parse(fs.readFileSync(draftJson, 'utf-8'));
 
-    // Copy content HTML to public/blog/
+    // Copy content HTML to public/blog-content/ (kept out of public/blog/
+    // so it doesn't shadow the prerendered standalone page that Netlify
+    // serves to crawlers at /blog/<slug>)
     if (fs.existsSync(draftContent)) {
-      fs.copyFileSync(draftContent, path.join(PUBLIC_BLOG, `${entry.slug}.html`));
+      if (!fs.existsSync(PUBLIC_BLOG_CONTENT)) {
+        fs.mkdirSync(PUBLIC_BLOG_CONTENT, { recursive: true });
+      }
+      fs.copyFileSync(draftContent, path.join(PUBLIC_BLOG_CONTENT, `${entry.slug}.html`));
     }
 
     // Copy static HTML for SEO
@@ -86,7 +92,7 @@ function main() {
   // Git commit and push (only when running locally, not in GitHub Actions)
   if (!process.env.GITHUB_ACTIONS) {
     try {
-      execSync('git add public/blog/', { cwd: PROJECT_DIR, stdio: 'pipe' });
+      execSync('git add public/blog/ public/blog-content/', { cwd: PROJECT_DIR, stdio: 'pipe' });
       execSync('git add public/sitemap.xml', { cwd: PROJECT_DIR, stdio: 'pipe' });
 
       const titles = due.map(d => d.title).join(', ');
