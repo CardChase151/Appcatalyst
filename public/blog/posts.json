@@ -1,5 +1,13 @@
 [
   {
+    "slug": "what-is-supabase-why-startups-choose-it-over-firebase",
+    "title": "What is Supabase? Why Startups Are Choosing It Over Firebase in 2026",
+    "description": "Explain Supabase to non-technical readers. Compare to Firebase: open source, PostgreSQL, pricing, vendor lock-in, real-time, auth, storage. Why AppCatalyst chose Supabase. Cost comparison at different",
+    "keyword": "supabase vs firebase",
+    "publishDate": "2026-04-13",
+    "readTime": "8 min read"
+  },
+  {
     "slug": "web-app-vs-mobile-app-which-does-your-business-need",
     "title": "Web App vs Mobile App: Which Does Your Business Need?",
     "description": "Clear comparison: cost, reach, features, maintenance, user experience. When to choose web (broader reach, lower cost), when to choose mobile (push notifications, offline, device features), when to cho",
