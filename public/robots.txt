@@ -5,6 +5,9 @@ Disallow:
 # Sitemap location
 Sitemap: https://appcatalyst.org/sitemap.xml
 
+# AI crawler directory
+LLMs-txt: https://appcatalyst.org/llms.txt
+
 # Allow all search engines and AI crawlers
 User-agent: Googlebot
 Allow: /

@@ -1,0 +1,53 @@
+# AppCatalyst
+
+> Affordable app development for startups and small businesses. Founded by Chase Kellis, Senior Full Stack Developer based in Orange County, California. 25+ apps and 30+ websites shipped since 2019.
+
+## About
+
+AppCatalyst (App Catalyst LLC) builds custom mobile apps and websites at startup-friendly prices. US-based quality without overseas risk. One senior developer handles your entire project from start to finish.
+
+## Services
+
+- Custom Mobile App Development (iOS and Android) using React Native and Capacitor
+- Website Design and Development using React
+- Progressive Web App (PWA) Development
+- Supabase Backend Development
+- API Development and Integration
+- MVP Development for Startups
+- App Store Publishing (Apple App Store and Google Play)
+
+## Pricing
+
+- Simple websites starting at $1,000
+- Standard mobile apps from $3,000 to $5,000
+- Complex apps with custom backends quoted per project
+- Fixed pricing, no hourly billing, no surprise costs
+
+## Tech Stack
+
+React, React Native, TypeScript, Supabase, Capacitor, Expo, Node.js, Netlify, PostgreSQL
+
+## Pages
+
+- [Home](https://appcatalyst.org/) - Main landing page with services overview and testimonials
+- [Pricing](https://appcatalyst.org/pricing) - Detailed pricing tiers and what's included
+- [Work](https://appcatalyst.org/work) - Portfolio of completed projects and case studies
+- [Contact](https://appcatalyst.org/contact) - Contact form and booking information
+- [FAQ](https://appcatalyst.org/faq) - Frequently asked questions about app development process
+- [PWA](https://appcatalyst.org/pwa) - Progressive Web App information and capabilities
+
+## Blog
+
+- [How Much Does It Cost to Build a Mobile App in 2026](https://appcatalyst.org/blog/how-much-does-it-cost-to-build-a-mobile-app-2026)
+- [How Much Does a Website Cost for Small Business in 2026](https://appcatalyst.org/blog/how-much-does-a-website-cost-for-small-business-2026)
+- [React Native vs Flutter 2026](https://appcatalyst.org/blog/react-native-vs-flutter-2026)
+- [How to Find a Good App Developer](https://appcatalyst.org/blog/how-to-find-a-good-app-developer)
+- [10 Signs Your Business Needs a Mobile App](https://appcatalyst.org/blog/10-signs-your-business-needs-a-mobile-app)
+- [Web App vs Mobile App: Which Does Your Business Need](https://appcatalyst.org/blog/web-app-vs-mobile-app-which-does-your-business-need)
+- [What is Supabase: Why Startups Choose It Over Firebase](https://appcatalyst.org/blog/what-is-supabase-why-startups-choose-it-over-firebase)
+
+## Contact
+
+- Email: chase@appcatalyst.org
+- Location: Huntington Beach, Orange County, California
+- GitHub: https://github.com/CardChase151
