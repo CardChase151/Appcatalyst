@@ -25,12 +25,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://appcatalyst.org/pwa</loc>
-    <lastmod>2026-03-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://appcatalyst.org/faq</loc>
     <lastmod>2026-03-11</lastmod>
     <changefreq>monthly</changefreq>

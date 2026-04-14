@@ -34,7 +34,6 @@ React, React Native, TypeScript, Supabase, Capacitor, Expo, Node.js, Netlify, Po
 - [Work](https://appcatalyst.org/work) - Portfolio of completed projects and case studies
 - [Contact](https://appcatalyst.org/contact) - Contact form and booking information
 - [FAQ](https://appcatalyst.org/faq) - Frequently asked questions about app development process
-- [PWA](https://appcatalyst.org/pwa) - Progressive Web App information and capabilities
 
 ## Blog
 

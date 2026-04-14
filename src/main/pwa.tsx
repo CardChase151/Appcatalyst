@@ -34,6 +34,7 @@ function PWA() {
           <SEO
             title="Install App - Progressive Web App"
             description="Install AppCatalyst as a progressive web app on your device. Fast, native-like experience right from your home screen."
+            noindex
             keywords="progressive web app, install web app, PWA app development"
             path="/pwa"
           />

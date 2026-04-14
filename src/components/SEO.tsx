@@ -6,11 +6,12 @@ interface SEOProps {
   keywords?: string;
   path: string;
   type?: string;
+  noindex?: boolean;
 }
 
 const BASE_URL = 'https://appcatalyst.org';
 
-export default function SEO({ title, description, keywords, path, type = 'website' }: SEOProps) {
+export default function SEO({ title, description, keywords, path, type = 'website', noindex }: SEOProps) {
   const url = `${BASE_URL}${path}`;
   const fullTitle = path === '/'
     ? 'AppCatalyst - Affordable App Development for Startups | Chase Kellis'
@@ -20,6 +21,7 @@ export default function SEO({ title, description, keywords, path, type = 'websit
     <Helmet>
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
+      {noindex && <meta name="robots" content="noindex, nofollow" />}
       {keywords && <meta name="keywords" content={keywords} />}
       <link rel="canonical" href={url} />
 
