@@ -1,5 +1,13 @@
 [
   {
+    "slug": "mvp-development-build-your-first-app-without-wasting-50k",
+    "title": "MVP Development: Build Your First App Without Wasting $50K",
+    "description": "What an MVP actually is (and isn't). The lean approach. How to identify core features vs nice-to-haves. Real MVP examples that became big products. Timeline and budget for an MVP ($3K-$5K at AppCataly",
+    "keyword": "mvp app development",
+    "publishDate": "2026-04-20",
+    "readTime": "8 min read"
+  },
+  {
     "slug": "what-is-supabase-why-startups-choose-it-over-firebase",
     "title": "What is Supabase? Why Startups Are Choosing It Over Firebase in 2026",
     "description": "Explain Supabase to non-technical readers. Compare to Firebase: open source, PostgreSQL, pricing, vendor lock-in, real-time, auth, storage. Why AppCatalyst chose Supabase. Cost comparison at different",
