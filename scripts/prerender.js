@@ -28,6 +28,14 @@ const BASE_URL = 'https://appcatalyst.org';
 // Metadata must stay in sync with src/main/*.tsx <SEO> props
 const ROUTES = [
   {
+    path: '/',
+    title: 'AppCatalyst - Mobile App & Web Development',
+    description: 'Custom apps and websites built by a senior developer. Fixed pricing, transparent process. Mobile apps from $3K-$5K, websites from $1K. Orange County based, serving clients nationwide.',
+    keywords: 'app development, mobile app developer, react native developer, custom app development, affordable app developer, fixed price app development, Orange County app developer',
+    h1: 'AppCatalyst - Custom App Development',
+    body: 'Senior developer building custom mobile apps and websites with transparent fixed pricing. Mobile apps from $3,000 to $5,000. Websites from $1,000. Built with React Native, React, and Supabase. Orange County based, serving clients nationwide since 2019.',
+  },
+  {
     path: '/pricing',
     title: 'App Development Pricing',
     description: 'Transparent, fixed-price app development. Websites from $1K, mobile apps from $3K-$5K. No hidden fees, no hourly billing. Orange County based, serving clients nationwide.',
@@ -98,8 +106,37 @@ const ROUTES = [
   },
 ];
 
+// Add published blog post routes from the content calendar dynamically.
+try {
+  const calendar = require(path.join(__dirname, 'content-calendar.json'));
+  const today = new Date().toISOString().slice(0, 10);
+  for (const post of calendar) {
+    if (!post.slug || post.publishDate > today) continue;
+    ROUTES.push({
+      path: `/blog/${post.slug}`,
+      title: post.title,
+      description: post.description || post.title,
+      keywords: `app development, ${post.title.toLowerCase()}, AppCatalyst blog`,
+      h1: post.title,
+      body: post.description || post.title,
+    });
+  }
+} catch (e) {
+  console.log(`[prerender] Could not load content-calendar.json: ${e.message}`);
+}
+
 const escape = (s) =>
   String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+// Build a site-wide nav block of every route. Injected into <noscript> on
+// every prerendered page so crawlers can walk from any page to any other
+// without depending on JS execution.
+function buildSiteNav() {
+  const links = ROUTES
+    .filter((r) => !['/privacy', '/terms', '/csae-policy', '/pwa'].includes(r.path))
+    .map((r) => `<a href="${BASE_URL}${r.path === '/' ? '' : r.path}">${escape(r.h1)}</a>`);
+  return `<nav aria-label="Site map">${links.join(' · ')}</nav>`;
+}
 
 function prerender(template, route) {
   const url = `${BASE_URL}${route.path}`;
@@ -144,9 +181,11 @@ function prerender(template, route) {
   </head>`;
   html = html.replace('</head>', headInjection);
 
-  // Replace noscript content with route-specific H1 + body so bots
-  // that don't run JS (and Google's first-pass crawl) see unique content
-  const noscriptHtml = `<noscript><div style="max-width:800px;margin:0 auto;padding:40px 20px;font-family:-apple-system,sans-serif;color:#333"><h1>${escape(route.h1)}</h1><p>${escape(route.body)}</p><p><a href="${BASE_URL}">AppCatalyst Home</a> | <a href="${BASE_URL}/work">Our Work</a> | <a href="${BASE_URL}/pricing">Pricing</a> | <a href="${BASE_URL}/contact">Contact</a></p></div></noscript>`;
+  // Replace noscript content with route-specific H1 + body and a complete
+  // site-map of links so bots that don't run JS (and Google's first-pass
+  // crawl) see unique content AND can discover every other page.
+  const siteNav = buildSiteNav();
+  const noscriptHtml = `<noscript><div style="max-width:800px;margin:0 auto;padding:40px 20px;font-family:-apple-system,sans-serif;color:#333"><h1>${escape(route.h1)}</h1><p>${escape(route.body)}</p>${siteNav}</div></noscript>`;
   html = html.replace(/<noscript>[\s\S]*?<\/noscript>/, noscriptHtml);
 
   return html;
@@ -163,24 +202,20 @@ function main() {
   let count = 0;
   for (const route of ROUTES) {
     const html = prerender(template, route);
-    // Write as build/<slug>.html (not <slug>/index.html) so Netlify
-    // serves it directly at /<slug> without a 301 to /<slug>/
-    const slug = route.path.replace(/^\//, '');
-    const outPath = path.join(BUILD_DIR, `${slug}.html`);
-    fs.mkdirSync(path.dirname(outPath), { recursive: true });
-    fs.writeFileSync(outPath, html, 'utf8');
-    console.log(`  prerendered ${route.path} -> ${path.relative(BUILD_DIR, outPath)}`);
+    if (route.path === '/') {
+      // Homepage — overwrite build/index.html with the prerendered version
+      fs.writeFileSync(templatePath, html, 'utf8');
+      console.log(`  prerendered / -> index.html`);
+    } else {
+      // Inner page — write as build/<slug>.html
+      const slug = route.path.replace(/^\//, '');
+      const outPath = path.join(BUILD_DIR, `${slug}.html`);
+      fs.mkdirSync(path.dirname(outPath), { recursive: true });
+      fs.writeFileSync(outPath, html, 'utf8');
+      console.log(`  prerendered ${route.path} -> ${path.relative(BUILD_DIR, outPath)}`);
+    }
     count++;
   }
-
-  // Also fix the homepage: add canonical to build/index.html so / has it too
-  const homeHtml = template
-    .replace(
-      /<\/head>/,
-      `  <link rel="canonical" href="${BASE_URL}/"/>\n  </head>`
-    );
-  fs.writeFileSync(templatePath, homeHtml, 'utf8');
-  console.log(`  added canonical to / (build/index.html)`);
 
   console.log(`\nPrerendered ${count} routes.`);
 }
