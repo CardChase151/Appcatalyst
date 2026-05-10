@@ -16,6 +16,143 @@ interface Project {
 
 const projects: Project[] = [
   {
+    id: 'tacosmiranda',
+    title: 'Tacos Miranda',
+    type: 'Web & Mobile',
+    description: 'Direct-to-customer Order Online system for a local restaurant. Integrated Stripe and Square for payments, the DoorDash Drive API for delivery, and a network kitchen printer that auto-prints tickets the moment an order lands.',
+    techStack: ['React', 'Supabase', 'Stripe', 'Square API', 'DoorDash API'],
+    liveUrl: 'https://tacosmiranda.com/',
+    screenshots: [
+      '/projects/tacosmiranda-menu-desktop.png',
+      '/projects/tacosmiranda-order-online-mobile.png',
+      '/projects/tacosmiranda-burrito-customizer.png',
+      '/projects/tacosmiranda-cart-checkout.png'
+    ],
+    isPrivate: false
+  },
+  {
+    id: 'biltapp',
+    title: 'Biltapp',
+    type: 'Web & Mobile',
+    description: 'Multi-tenant white-label SaaS. One approved app shell dynamically loads each subscriber’s branding, content, and features at runtime, eliminating per-client App Store submissions and cutting onboarding from weeks to minutes.',
+    techStack: ['React', 'Capacitor', 'Supabase', 'Stripe'],
+    liveUrl: 'https://bilt.appcatalyst.org/',
+    screenshots: [
+      '/projects/biltapp-features-pricing.png',
+      '/projects/biltapp-instance-blue-players-club.png',
+      '/projects/biltapp-instance-every1-eats.png',
+      '/projects/biltapp-instance-powerhouse.png'
+    ],
+    isPrivate: false
+  },
+  {
+    id: 'fieldortho',
+    title: 'FieldOrtho',
+    type: 'Mobile App',
+    description: 'B2B sales enablement app for orthopedic device reps. Native iOS and Android via Capacitor with offline content library, an AI chat assistant, downloadable reference docs, and a custom admin dashboard that lets the internal team manage AI behavior and training data without engineering involvement.',
+    techStack: ['React', 'Capacitor', 'Supabase', 'AI / LLM', 'Custom Admin'],
+    liveUrl: '',
+    screenshots: [
+      '/projects/fieldortho-02-home.png',
+      '/projects/fieldortho-04-ai-chat.png',
+      '/projects/fieldortho-03-sales-tools.png',
+      '/projects/fieldortho-06-content-viewer.png',
+      '/projects/fieldortho-05-downloads.png',
+      '/projects/fieldortho-01-login.png'
+    ],
+    isPrivate: true
+  },
+  {
+    id: 'medulochub',
+    title: 'MedulocHub',
+    type: 'Mobile App',
+    description: 'B2B medical content and training hub built on the same architecture as FieldOrtho. AI assistant, sales tools, content viewer, and an admin-facing dashboard for non-technical staff to update AI training data and manage model behavior on the fly.',
+    techStack: ['React', 'Capacitor', 'Supabase', 'AI / LLM', 'Custom Admin'],
+    liveUrl: '',
+    screenshots: [
+      '/projects/medulochub-02-home.png',
+      '/projects/medulochub-04-ai-chat.png',
+      '/projects/medulochub-03-sales-tools.png',
+      '/projects/medulochub-06-content-viewer.png',
+      '/projects/medulochub-05-downloads.png',
+      '/projects/medulochub-01-login.png'
+    ],
+    isPrivate: true
+  },
+  {
+    id: 'bandofbrothers',
+    title: 'Band of Brothers',
+    type: 'Mobile App',
+    description: 'Men\'s discipleship and brotherhood app. Daily Scripture, Declaration, and Prayer cards on the home screen, a Bootcamp flow for praying-reaching-inviting other men, group chat for connected brotherhoods, a public prayer feed categorized by life battles (War Room), structured training sessions, and retreat registration. Native iOS and Android via Capacitor.',
+    techStack: ['React', 'Capacitor', 'Supabase', 'OneSignal'],
+    liveUrl: '',
+    screenshots: [
+      '/projects/bob-01-home.png',
+      '/projects/bob-04-war-room.png',
+      '/projects/bob-03-brotherhood-chat.png',
+      '/projects/bob-05-training-ground.png',
+      '/projects/bob-02-bootcamp-list.png',
+      '/projects/bob-06-retreats.png'
+    ],
+    isPrivate: false
+  },
+  {
+    id: 'centerchurch',
+    title: 'Center Church',
+    type: 'Web App',
+    description: 'Custom church website rebuild for a multiethnic congregation on Boston’s North Shore. Replaced a generic Squarespace template with a brand-driven editorial-feel React site, including palette, typography system, and Planning Center plus live-stream integrations.',
+    techStack: ['React', 'Vite', 'Framer Motion', 'Netlify'],
+    liveUrl: 'https://centerchurchne.com/',
+    screenshots: [
+      '/projects/centerchurch-home-hero.png',
+      '/projects/centerchurch-about.png',
+      '/projects/centerchurch-visit.png'
+    ],
+    isPrivate: false
+  },
+  {
+    id: 'trainercenter',
+    title: 'Pokemon Trainer Center HB',
+    type: 'Web App',
+    description: 'Pokemon TCG store and league site rebuild. Replaced Squarespace with a custom React stack including a markdown blog, build-time prerendering for SEO, calendar of events, and a buy/sell consignment funnel.',
+    techStack: ['React', 'Supabase', 'Netlify', 'Prerendering'],
+    liveUrl: 'https://pokemontrainercenter.com/',
+    screenshots: [
+      '/projects/trainercenter-home-hero.png',
+      '/projects/trainercenter-mission.png',
+      '/projects/trainercenter-calendar.png',
+      '/projects/trainercenter-buy-sell.png',
+      '/projects/trainercenter-blog.png'
+    ],
+    isPrivate: false
+  },
+  {
+    id: 'mrfixitalloc',
+    title: 'MrFixItAllOC',
+    type: 'Web App',
+    description: 'Local Orange County handyman site with full SEO infrastructure: structured data (JSON-LD), sitemap with lastmod, canonical metadata, Open Graph tags, and category gallery pages built for local search visibility.',
+    techStack: ['HTML', 'CSS', 'JSON-LD', 'GitHub Pages'],
+    liveUrl: 'https://mrfixitalloc.com/',
+    screenshots: [
+      '/projects/mrfixitalloc-home-hero.png',
+      '/projects/mrfixitalloc-services.png'
+    ],
+    isPrivate: false
+  },
+  {
+    id: 'westcoastmarriagecamp',
+    title: 'West Coast Marriage Camp',
+    type: 'Web App',
+    description: 'Marriage retreat site for West Coast Ministries. Editorial-feel hero, story page, photo gallery of past camps, and a registration funnel.',
+    techStack: ['React', 'Netlify'],
+    liveUrl: 'https://westcoastmarriagecamp.com/',
+    screenshots: [
+      '/projects/westcoastmarriagecamp-home.png',
+      '/projects/westcoastmarriagecamp-gallery.png'
+    ],
+    isPrivate: false
+  },
+  {
     id: 'cardchase',
     title: 'CardChase',
     type: 'Web & Mobile',
@@ -36,16 +173,6 @@ const projects: Project[] = [
     isPrivate: false
   },
   {
-    id: 'teaminspire',
-    title: 'TeamInspire',
-    type: 'Mobile App',
-    description: 'Team collaboration and motivation platform with goal tracking and performance metrics.',
-    techStack: ['React Native', 'Node.js'],
-    liveUrl: '',
-    screenshots: ['/projects/TeamInspire1.png', '/projects/TeamInspire2.png'],
-    isPrivate: true
-  },
-  {
     id: 'freeqrcoding',
     title: 'FreeQRCoding',
     type: 'Web App',
@@ -54,6 +181,16 @@ const projects: Project[] = [
     liveUrl: 'https://freeqrcoding.com/',
     screenshots: ['/projects/qrcode.png'],
     isPrivate: false
+  },
+  {
+    id: 'teaminspire',
+    title: 'TeamInspire',
+    type: 'Mobile App',
+    description: 'Team collaboration and motivation platform with goal tracking and performance metrics.',
+    techStack: ['React Native', 'Node.js'],
+    liveUrl: '',
+    screenshots: ['/projects/TeamInspire1.png', '/projects/TeamInspire2.png'],
+    isPrivate: true
   },
   {
     id: 'secondopinion',
@@ -191,7 +328,7 @@ function Projects() {
           margin: '0 0 24px 0',
           textAlign: 'right'
         }}>
-          Showcasing 6 of my 25+ apps and 30+ websites
+          Showcasing 15 of my 25+ apps and 30+ websites
         </p>
 
         {/* Filter Buttons */}

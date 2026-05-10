@@ -22,3 +22,18 @@ fatal: could not read Username for 'https://github.com': Device not configured
 failed to get: -25320
 fatal: could not read Username for 'https://github.com': Device not configured
 
+[GIT] Error: Command failed: git push
+fatal: unable to access 'https://github.com/CardChase151/Appcatalyst.git/': Could not resolve host: github.com
+
+[GIT] Error: Command failed: git push
+failed to get: -60008
+fatal: could not read Username for 'https://github.com': Device not configured
+
+[GIT] Error: Command failed: git push
+failed to get: -25320
+fatal: could not read Username for 'https://github.com': Device not configured
+
+[GIT] Error: Command failed: git push
+failed to get: -128
+fatal: could not read Username for 'https://github.com': Device not configured
+
