@@ -50,6 +50,7 @@ const ROUTES = [
     keywords: 'app development portfolio, mobile app examples, react native apps, app developer work samples, custom app projects, startup app portfolio',
     h1: 'Our Work',
     body: 'Portfolio of 25+ apps and websites built by AppCatalyst since 2019. Real projects for real businesses including healthcare apps, trading platforms, business tools, and startup MVPs. Built with React Native, React, and Supabase.',
+    itemCount: 15,
   },
   {
     path: '/contact',
@@ -115,10 +116,12 @@ try {
     ROUTES.push({
       path: `/blog/${post.slug}`,
       title: post.title,
-      description: post.description || post.title,
-      keywords: `app development, ${post.title.toLowerCase()}, AppCatalyst blog`,
+      description: post.description || post.brief || post.title,
+      keywords: `app development, ${post.keyword || post.title.toLowerCase()}, AppCatalyst blog`,
       h1: post.title,
-      body: post.description || post.title,
+      body: post.description || post.brief || post.title,
+      datePublished: post.publishDate,
+      isArticle: true,
     });
   }
 } catch (e) {
@@ -127,6 +130,137 @@ try {
 
 const escape = (s) =>
   String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+// Build per-route JSON-LD. Homepage already has a rich ProfessionalService block
+// in public/index.html — we add a complementary BreadcrumbList there too.
+// All other routes get BreadcrumbList plus a route-specific schema:
+//   /work -> ItemList   /faq -> FAQPage
+//   /blog -> Blog       /blog/:slug -> Article
+//   /pricing -> Service /contact -> ContactPage
+function buildJsonLd(route) {
+  const url = `${BASE_URL}${route.path}`;
+  const fullTitle = `${route.title} | AppCatalyst - Chase Kellis`;
+  const blocks = [];
+
+  // BreadcrumbList for every non-home route
+  if (route.path !== '/') {
+    const segments = route.path.split('/').filter(Boolean);
+    const items = [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL + '/' },
+    ];
+    let acc = '';
+    segments.forEach((seg, i) => {
+      acc += '/' + seg;
+      const name = seg === segments[0] && route.h1 && segments.length === 1
+        ? route.h1
+        : seg.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+      items.push({
+        '@type': 'ListItem',
+        position: i + 2,
+        name: i === segments.length - 1 ? route.h1 || name : name,
+        item: BASE_URL + acc,
+      });
+    });
+    blocks.push({
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: items,
+    });
+  }
+
+  // Route-specific schemas
+  if (route.isArticle && route.datePublished) {
+    blocks.push({
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: route.title,
+      description: route.description,
+      url,
+      datePublished: route.datePublished,
+      dateModified: new Date().toISOString().slice(0, 10),
+      author: {
+        '@type': 'Person',
+        name: 'Chase Kellis',
+        url: BASE_URL,
+      },
+      publisher: {
+        '@type': 'Organization',
+        name: 'AppCatalyst',
+        logo: { '@type': 'ImageObject', url: BASE_URL + '/profile.png' },
+      },
+      mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+      image: BASE_URL + '/profile.png',
+    });
+  } else if (route.path === '/blog') {
+    blocks.push({
+      '@context': 'https://schema.org',
+      '@type': 'Blog',
+      url,
+      name: fullTitle,
+      description: route.description,
+      publisher: {
+        '@type': 'Organization',
+        name: 'AppCatalyst',
+        url: BASE_URL,
+      },
+    });
+  } else if (route.path === '/work') {
+    const projectCount = (typeof route.itemCount === 'number') ? route.itemCount : 15;
+    blocks.push({
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      url,
+      name: fullTitle,
+      description: route.description,
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: projectCount,
+        itemListOrder: 'https://schema.org/ItemListOrderDescending',
+        name: 'AppCatalyst Portfolio',
+      },
+    });
+  } else if (route.path === '/faq') {
+    blocks.push({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      url,
+      name: fullTitle,
+      description: route.description,
+    });
+  } else if (route.path === '/pricing') {
+    blocks.push({
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: 'Custom App and Web Development',
+      provider: {
+        '@type': 'ProfessionalService',
+        name: 'AppCatalyst',
+        url: BASE_URL,
+      },
+      areaServed: { '@type': 'Country', name: 'United States' },
+      offers: {
+        '@type': 'AggregateOffer',
+        lowPrice: '1000',
+        highPrice: '5000',
+        priceCurrency: 'USD',
+        offerCount: '3',
+      },
+      url,
+    });
+  } else if (route.path === '/contact') {
+    blocks.push({
+      '@context': 'https://schema.org',
+      '@type': 'ContactPage',
+      url,
+      name: fullTitle,
+      description: route.description,
+    });
+  }
+
+  return blocks
+    .map((b) => `<script type="application/ld+json">${JSON.stringify(b)}</script>`)
+    .join('\n    ');
+}
 
 // Build a site-wide nav block of every route. Injected into <noscript> on
 // every prerendered page so crawlers can walk from any page to any other
@@ -164,10 +298,11 @@ function prerender(template, route) {
     );
   }
 
-  // Inject canonical + OG/Twitter tags right before </head>
+  // Inject canonical + OG/Twitter tags + JSON-LD right before </head>
+  const jsonLd = buildJsonLd(route);
   const headInjection = `
     <link rel="canonical" href="${url}"/>
-    <meta property="og:type" content="website"/>
+    <meta property="og:type" content="${route.isArticle ? 'article' : 'website'}"/>
     <meta property="og:url" content="${url}"/>
     <meta property="og:title" content="${escape(fullTitle)}"/>
     <meta property="og:description" content="${escape(route.description)}"/>
@@ -178,6 +313,7 @@ function prerender(template, route) {
     <meta name="twitter:title" content="${escape(fullTitle)}"/>
     <meta name="twitter:description" content="${escape(route.description)}"/>
     <meta name="twitter:image" content="${BASE_URL}/profile.png"/>
+    ${jsonLd}
   </head>`;
   html = html.replace('</head>', headInjection);
 
@@ -218,6 +354,27 @@ function main() {
   }
 
   console.log(`\nPrerendered ${count} routes.`);
+
+  // Refresh sitemap.xml with today's date so Google re-fetches on the next
+  // crawl. Without this, lastmod stays frozen at whatever was committed and
+  // Google ignores the sitemap.
+  refreshSitemap();
+}
+
+function refreshSitemap() {
+  const today = new Date().toISOString().slice(0, 10);
+  const sitemapPath = path.join(BUILD_DIR, 'sitemap.xml');
+  if (!fs.existsSync(sitemapPath)) {
+    console.log('[sitemap] build/sitemap.xml not found — skipping date refresh');
+    return;
+  }
+  let xml = fs.readFileSync(sitemapPath, 'utf8');
+  const before = xml;
+  xml = xml.replace(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/g, `<lastmod>${today}</lastmod>`);
+  if (xml !== before) {
+    fs.writeFileSync(sitemapPath, xml, 'utf8');
+    console.log(`[sitemap] bumped all <lastmod> entries to ${today}`);
+  }
 }
 
 main();
